@@ -5,12 +5,21 @@ import store from './store'
 import dotenv from 'dotenv'
 import './registerServiceWorker'
 
-dotenv.config({ path: '.env.local' })
+async function init() {
+  if (process.env.NODE_ENV === 'development') {
+    const { worker } = await import('@/mocks/worker')
+    worker.start()
+  }
 
-Vue.config.productionTip = false
+  dotenv.config({ path: '.env.local' })
 
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+  Vue.config.productionTip = false
+
+  new Vue({
+    router,
+    store,
+    render: h => h(App),
+  }).$mount('#app')
+}
+
+init()
