@@ -2,5 +2,5 @@ export interface Street {
   id: string
   lat: number
   lng: number
-  cleaningDays: number[]
+  cleaningDays: Record<number, boolean>
 }

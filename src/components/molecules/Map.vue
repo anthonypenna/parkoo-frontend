@@ -6,10 +6,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { UserCursor } from "@/components/atoms/UserCursor.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import * as Mapbox from "mapbox-gl";
 import { MAPBOX_CENTER, MAPBOX_THEME, MAPBOX_ZOOM } from "@/constants/mapbox";
+import { MapChild } from "@/models/MapChild";
+import { isUserCursor } from "@/services/user-cursor";
+import { isStreetMarker } from "@/services/street-marker";
 
 export default Vue.extend({
   name: "Map",
@@ -43,19 +45,30 @@ export default Vue.extend({
 
   computed: {
     ...mapGetters("mapbox", ["map"]),
-
-    cursor(): UserCursor | undefined {
-      return this.$children.find(
-        (child): child is UserCursor => child.$options.name === "UserCursor"
-      );
-    },
   },
 
   methods: {
-    renderCursor() {
-      const { $el, lat, lng } = this.cursor as UserCursor;
-      const element = $el as HTMLElement;
-      new Mapbox.Marker({ element }).setLngLat([lng, lat]).addTo(this.map);
+    ...mapMutations("mapbox", ["setMap"]),
+
+    renderChildComponent<A extends MapChild>(childComponent: A | undefined) {
+      if (childComponent) {
+        const { $el, lat, lng } = childComponent;
+        const element = $el as HTMLElement;
+        new Mapbox.Marker({ element }).setLngLat([lng, lat]).addTo(this.map);
+      }
+    },
+
+    onMapLoad() {
+      const userCursor = this.$children.find(isUserCursor);
+      this.renderChildComponent(userCursor);
+      this.$children.forEach((child) =>
+        this.renderChildComponent(child as MapChild)
+      );
+      this.$emit("load");
+    },
+
+    onMapMoveEnd() {
+      this.$emit("moveend");
     },
   },
 
@@ -68,11 +81,9 @@ export default Vue.extend({
       zoom: this.zoom,
     });
 
-    this.$store.commit("mapbox/setMap", map);
-
-    this.map.on("load", () => {
-      if (this.cursor) this.renderCursor();
-    });
+    this.setMap(map);
+    map.on("load", this.onMapLoad);
+    map.on("moveend", this.onMapMoveEnd);
   },
 });
 </script>

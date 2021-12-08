@@ -5,7 +5,7 @@
     viewBox="0 0 32 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    :style="`filter: drop-shadow(0 4px 16px ${color}A0)`"
+    :style="`filter: drop-shadow(0 4px 16px ${color}ff)`"
   >
     <path
       fill-rule="evenodd"
@@ -18,20 +18,37 @@
 
 <script lang="ts">
 import Vue from "vue";
+import {
+  STREET_MARKER_AVAILABLE_COLOR,
+  STREET_MARKER_NAME,
+  STREET_MARKER_UNAVAILABLE_COLOR,
+} from "@/constants/street-marker";
 
 export default Vue.extend({
-  name: "StreetMarker",
+  name: STREET_MARKER_NAME,
 
   props: {
     cleanedTomorrow: {
       default: false,
       type: Boolean,
     },
+
+    lat: {
+      default: 0,
+      type: Number,
+    },
+
+    lng: {
+      default: 0,
+      type: Number,
+    },
   },
 
   computed: {
     color() {
-      return this.cleanedTomorrow ? "#FF7373" : "#1DDC3C";
+      return this.cleanedTomorrow
+        ? STREET_MARKER_UNAVAILABLE_COLOR
+        : STREET_MARKER_AVAILABLE_COLOR;
     },
   },
 });

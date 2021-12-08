@@ -14,7 +14,7 @@
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   box-shadow: 0 4px 16px rgba($color: #000000, $alpha: 0.1);
-  z-index: 10;
+  z-index: 100;
 
   &__title {
     margin: 0;

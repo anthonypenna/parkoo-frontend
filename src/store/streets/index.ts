@@ -28,4 +28,8 @@ export const streetsStore: Module<StreetsState, unknown> = {
       store.commit('setStreets', response?.streets)
     },
   },
+
+  getters: {
+    streets: state => state.streets,
+  },
 }

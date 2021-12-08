@@ -35,7 +35,7 @@ describe('streets store', () => {
     describe('setStreets', () => {
       it('should set the streets', () => {
         const streets: Street[] = [
-          { cleaningDays: [0], id: '', lat: 45, lng: 9 },
+          { cleaningDays: { 0: true }, id: '', lat: 45, lng: 9 },
         ]
 
         store.commit('streets/setStreets', streets)
@@ -67,15 +67,24 @@ describe('streets store', () => {
       describe('when the request succeeds', () => {
         it('should set the store streets', async () => {
           jest.spyOn(StreetsService, 'getStreets').mockResolvedValue({
-            streets: [{ cleaningDays: [0], id: '', lat: 0, lng: 0 }],
+            streets: [{ cleaningDays: { 0: true }, id: '', lat: 0, lng: 0 }],
           })
 
           await store.dispatch('streets/getStreets')
 
           expect(store.state.streets.streets).toEqual([
-            { cleaningDays: [0], id: '', lat: 0, lng: 0 },
+            { cleaningDays: { 0: true }, id: '', lat: 0, lng: 0 },
           ])
         })
+      })
+    })
+  })
+
+  describe('getters', () => {
+    describe('streets', () => {
+      it('should return the streets', () => {
+        const streets = store.getters['streets/streets']
+        expect(streets).toEqual([])
       })
     })
   })

@@ -4,21 +4,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { CombinedVueInstance } from "vue/types/vue";
-
-export type UserCursor = CombinedVueInstance<
-  Vue,
-  unknown,
-  unknown,
-  unknown,
-  Readonly<{
-    lat: number;
-    lng: number;
-  }>
->;
+import { USER_CURSOR_NAME } from "@/constants/user-cursor";
 
 export default Vue.extend({
-  name: "UserCursor",
+  name: USER_CURSOR_NAME,
 
   props: {
     lat: {
