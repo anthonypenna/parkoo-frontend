@@ -3,13 +3,14 @@ import { Module } from 'vuex'
 import { Map, LngLatLike } from 'mapbox-gl'
 import { MAPBOX_CENTER, MAPBOX_THEME, MAPBOX_ZOOM } from '@/constants/mapbox'
 import { Position } from '@/models/Position'
+import { getInitialCenter } from '@/utils/mapbox'
 
 export const mapboxStore: Module<MapboxState, unknown> = {
   namespaced: true,
 
   state: {
     accessToken: process.env.VUE_APP_MAPBOX_ACCESS_TOKEN || '',
-    center: MAPBOX_CENTER,
+    center: getInitialCenter(),
     theme: MAPBOX_THEME,
     zoom: MAPBOX_ZOOM,
     map: null,

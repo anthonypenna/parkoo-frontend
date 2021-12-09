@@ -85,6 +85,26 @@ describe('user store', () => {
             lng: 9,
           })
         })
+
+        it('should save the last known position', async () => {
+          jest
+            .spyOn(GeolocationService, 'getGeolocationPosition')
+            .mockResolvedValue({
+              coords: { latitude: 45, longitude: 9 },
+            } as GeolocationPosition)
+
+          const saveLastKnownPosition = jest.spyOn(
+            GeolocationService,
+            'saveLastKnownPosition'
+          )
+
+          await store.dispatch('user/getPosition')
+
+          expect(saveLastKnownPosition).toHaveBeenCalledWith({
+            lat: 45,
+            lng: 9,
+          })
+        })
       })
     })
   })

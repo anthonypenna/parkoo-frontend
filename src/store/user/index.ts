@@ -1,5 +1,8 @@
 import { UserState } from '@/models/UserState'
-import { getGeolocationPosition } from '@/services/geolocation'
+import {
+  getGeolocationPosition,
+  saveLastKnownPosition,
+} from '@/services/geolocation'
 import { until } from '@/utils/async'
 import { Module } from 'vuex'
 
@@ -29,8 +32,14 @@ export const userStore: Module<UserState, unknown> = {
         throw error
       }
 
-      store.commit('setLat', position?.coords.latitude)
-      store.commit('setLng', position?.coords.longitude)
+      if (!position) {
+        return
+      }
+
+      const { latitude: lat, longitude: lng } = position.coords
+      store.commit('setLat', lat)
+      store.commit('setLng', lng)
+      saveLastKnownPosition({ lat, lng })
     },
   },
 

@@ -10,8 +10,6 @@ import { mapGetters, mapMutations } from "vuex";
 import * as Mapbox from "mapbox-gl";
 import { MAPBOX_CENTER, MAPBOX_THEME, MAPBOX_ZOOM } from "@/constants/mapbox";
 import { MapChild } from "@/models/MapChild";
-import { isUserCursor } from "@/services/user-cursor";
-import { isStreetMarker } from "@/services/street-marker";
 
 export default Vue.extend({
   name: "Map",
@@ -59,8 +57,6 @@ export default Vue.extend({
     },
 
     onMapLoad() {
-      const userCursor = this.$children.find(isUserCursor);
-      this.renderChildComponent(userCursor);
       this.$children.forEach((child) =>
         this.renderChildComponent(child as MapChild)
       );
@@ -83,7 +79,6 @@ export default Vue.extend({
 
     this.setMap(map);
     map.on("load", this.onMapLoad);
-    map.on("moveend", this.onMapMoveEnd);
   },
 });
 </script>

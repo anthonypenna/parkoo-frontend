@@ -9,7 +9,6 @@
       :theme="theme"
       :zoom="zoom"
       @load="handleMapLoad"
-      @moveend="handleMapMoveEnd"
     >
       <UserCursor :lat="lat" :lng="lng" />
       <StreetMarker
@@ -88,10 +87,6 @@ export default Vue.extend({
 
     isCleanedTomorrow(street: Street) {
       return !!street.cleaningDays[this.currentDay + 1];
-    },
-
-    handleMapMoveEnd() {
-      // this.stopLoading();
     },
   },
 
