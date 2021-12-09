@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import dotenv from 'dotenv'
 import './registerServiceWorker'
+import './registerMapboxServiceWorker'
 
 async function init() {
   if (process.env.NODE_ENV === 'development') {

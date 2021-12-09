@@ -83,7 +83,7 @@ export default Vue.extend({
     goToCoordinates(lat: number, lng: number) {
       const map = this.map as Mapbox.Map;
       const center = [lng, lat] as Mapbox.LngLatLike;
-      map.flyTo({ center, speed: 4 });
+      map.flyTo({ center, speed: 2 });
     },
 
     isCleanedTomorrow(street: Street) {
@@ -91,7 +91,7 @@ export default Vue.extend({
     },
 
     handleMapMoveEnd() {
-      this.stopLoading();
+      // this.stopLoading();
     },
   },
 
@@ -110,6 +110,7 @@ export default Vue.extend({
 
   async mounted() {
     await Promise.all([this.handleGeolocation(), this.handleStreetsFetching()]);
+    this.stopLoading();
   },
 });
 </script>
