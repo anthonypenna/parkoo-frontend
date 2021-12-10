@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GeolocationErrorModal /> should render correctly 1`] = `
+<div class="modal">
+  <h2>Oops!</h2>
+  <p>
+    Parkoo needs access to your location <br>in order to work correctly.
+  </p>
+  <p>Please check your settings and try again</p> <button class="button button--secondary">Try again</button>
+</div>
+`;

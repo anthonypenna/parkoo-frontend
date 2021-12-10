@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AlertModal /> should render correctly 1`] = `
+<modal-stub>Hello world! <button-stub theme="secondary">Click me</button-stub>
+</modal-stub>
+`;

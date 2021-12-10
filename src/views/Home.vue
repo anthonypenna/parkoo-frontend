@@ -19,6 +19,14 @@
         :lng="street.lng"
       />
     </Map>
+    <StreetsFetchingErrorModal
+      v-if="showStreetsFetchingErrorModal"
+      @tryagain="onStreetsFetchingTryAgain"
+    />
+    <GeolocationErrorModal
+      v-if="showGeolocationErrorModal"
+      @tryagain="onGeolocationTryAgain"
+    />
   </div>
 </template>
 
@@ -38,6 +46,10 @@ export default Vue.extend({
     StreetMarker: () => import("@/components/atoms/StreetMarker.vue"),
     UserCursor: () => import("@/components/atoms/UserCursor.vue"),
     Map: () => import("@/components/molecules/Map.vue"),
+    StreetsFetchingErrorModal: () =>
+      import("@/components/molecules/StreetsFetchingErrorModal.vue"),
+    GeolocationErrorModal: () =>
+      import("@/components/molecules/GeolocationErrorModal.vue"),
   },
 
   data() {
@@ -52,8 +64,18 @@ export default Vue.extend({
     ...mapActions("user", ["getPosition"]),
     ...mapActions("streets", ["getStreets"]),
 
-    handleGeolocationError() {
-      this.showGeolocationErrorModal = true;
+    async handleStreetsFetching() {
+      const [error] = await until(this.getStreets);
+      if (error) this.handleStreetsFetchingError();
+    },
+
+    handleStreetsFetchingError() {
+      this.showStreetsFetchingErrorModal = true;
+    },
+
+    onStreetsFetchingTryAgain() {
+      this.showStreetsFetchingErrorModal = false;
+      this.handleStreetsFetching();
     },
 
     async handleGeolocation() {
@@ -61,13 +83,13 @@ export default Vue.extend({
       if (error) this.handleGeolocationError();
     },
 
-    handleStreetsFetchingError() {
-      this.showStreetsFetchingErrorModal = true;
+    handleGeolocationError() {
+      this.showGeolocationErrorModal = true;
     },
 
-    async handleStreetsFetching() {
-      const [error] = await until(this.getStreets);
-      if (error) this.handleStreetsFetchingError();
+    onGeolocationTryAgain() {
+      this.showGeolocationErrorModal = false;
+      this.handleGeolocation();
     },
 
     stopLoading() {
@@ -104,8 +126,8 @@ export default Vue.extend({
   },
 
   async mounted() {
-    await Promise.all([this.handleGeolocation(), this.handleStreetsFetching()]);
-    this.stopLoading();
+    await Promise.all([this.handleStreetsFetching(), this.handleGeolocation()]);
+    if (!this.isError) this.stopLoading();
   },
 });
 </script>

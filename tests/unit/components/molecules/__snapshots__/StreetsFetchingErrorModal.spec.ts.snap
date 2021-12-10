@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StreetsFetchingErrorModal /> should render correctly 1`] = `
+<div class="modal">
+  <h2>Oops!</h2>
+  <p>Parkoo had trouble while connecting to the server</p>
+  <p>Try again later</p> <button class="button button--secondary">Try again</button>
+</div>
+`;

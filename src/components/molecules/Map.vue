@@ -62,10 +62,6 @@ export default Vue.extend({
       );
       this.$emit("load");
     },
-
-    onMapMoveEnd() {
-      this.$emit("moveend");
-    },
   },
 
   mounted() {
