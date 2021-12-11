@@ -9,7 +9,7 @@ import './registerMapboxServiceWorker'
 async function init() {
   if (process.env.NODE_ENV === 'development') {
     const { worker } = await import('@/mocks/worker')
-    worker.start()
+    worker.start({ onUnhandledRequest: 'bypass' })
   }
 
   dotenv.config({ path: '.env.local' })
