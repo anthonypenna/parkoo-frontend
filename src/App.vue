@@ -19,10 +19,12 @@ export default Vue.extend({
 body {
   margin: 0;
   font-family: Avenir, Arial, Helvetica, sans-serif;
+  line-height: 33px;
   text-align: center;
 }
 
-.mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right {
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right {
   display: none;
 }
 </style>
