@@ -1,11 +1,11 @@
 import { createLocalVue, mount, Wrapper } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Map from '@/components/molecules/Map.vue'
+import MapComponent from '@/components/molecules/Map.vue'
 import StreetMarker from '@/components/atoms/StreetMarker.vue'
 import * as Mapbox from 'mapbox-gl'
 
-type MapComponent = Wrapper<
-  Map & {
+type MapComponentType = Wrapper<
+  Vue & {
     map: Mapbox.Map
     renderChildComponent: (component: unknown) => unknown
     onMapLoad: () => void
@@ -62,13 +62,13 @@ describe('<Map />', () => {
   })
 
   it('should render correctly', () => {
-    const wrapper = mount(Map, { localVue, propsData, store })
+    const wrapper = mount(MapComponent, { localVue, propsData, store })
     expect(wrapper.html()).toMatchSnapshot()
   })
 
   describe('when mounted', () => {
     it('should create a new mapbox map', () => {
-      mount(Map, { localVue, propsData, store })
+      mount(MapComponent, { localVue, propsData, store })
       expect(Mapbox.Map).toHaveBeenCalledWith({
         container: 'map',
         accessToken: propsData.accessToken,
@@ -79,7 +79,7 @@ describe('<Map />', () => {
     })
 
     it('should save the map instance to the store', () => {
-      mount(Map, { localVue, propsData, store }) as MapComponent
+      mount(MapComponent, { localVue, propsData, store }) as MapComponentType
       expect(storeOptions.modules.mapbox.mutations.setMap).toHaveBeenCalled()
     })
   })
@@ -88,11 +88,11 @@ describe('<Map />', () => {
     describe('renderChildComponent', () => {
       describe('when the component is undefined', () => {
         it('should do nothing', () => {
-          const wrapper = mount(Map, {
+          const wrapper = mount(MapComponent, {
             localVue,
             propsData,
             store,
-          }) as MapComponent
+          }) as MapComponentType
 
           wrapper.vm.renderChildComponent(undefined)
           expect(Mapbox.Marker).not.toHaveBeenCalled()
@@ -101,11 +101,11 @@ describe('<Map />', () => {
 
       describe('when the component is defined', () => {
         it('should add a new marker to the map', () => {
-          const wrapper = mount(Map, {
+          const wrapper = mount(MapComponent, {
             localVue,
             propsData,
             store,
-          }) as MapComponent
+          }) as MapComponentType
 
           const component = { $el: {}, lat: 45, lng: 9 }
           wrapper.vm.renderChildComponent(component)
@@ -116,7 +116,7 @@ describe('<Map />', () => {
 
     describe('onMapLoad', () => {
       it('should render every child component', () => {
-        const wrapper = mount(Map, {
+        const wrapper = mount(MapComponent, {
           components: { StreetMarker },
           localVue,
           propsData,
@@ -128,7 +128,7 @@ describe('<Map />', () => {
                 <StreetMarker />
           `,
           },
-        }) as MapComponent
+        }) as MapComponentType
 
         wrapper.vm.renderChildComponent = jest.fn()
         wrapper.vm.onMapLoad()
@@ -136,11 +136,11 @@ describe('<Map />', () => {
       })
 
       it('should emit a load event', () => {
-        const wrapper = mount(Map, {
+        const wrapper = mount(MapComponent, {
           localVue,
           propsData,
           store,
-        }) as MapComponent
+        }) as MapComponentType
 
         wrapper.vm.onMapLoad()
         expect(wrapper.emitted().load).toBeTruthy()

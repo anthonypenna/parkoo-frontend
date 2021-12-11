@@ -1,8 +1,9 @@
-const serviceWorkerPath = '/mapboxsw.js'
+const serviceWorkerPath = '/mapboxServiceWorker.js'
+const logStyles = ['color: dodgerblue', 'font-weight: bold']
 
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     await navigator.serviceWorker.register(serviceWorkerPath)
-    console.log('Registered mapbox service worker.')
+    console.log('%c[MBSW] Mapbox asset caching enabled.', logStyles.join(';'))
   })
 }
