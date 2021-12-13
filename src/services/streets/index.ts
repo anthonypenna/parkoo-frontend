@@ -1,3 +1,4 @@
+import { API_BASEURL } from '@/constants/api'
 import { Street } from '@/models/Street'
 
 interface GetStreetsResponse {
@@ -5,7 +6,7 @@ interface GetStreetsResponse {
 }
 
 export function getStreets(): Promise<GetStreetsResponse> {
-  return fetch('http://localhost:3000/api/v1/streets')
+  return fetch(`${API_BASEURL}/streets`)
     .then(response => response.json())
     .then(json => json as GetStreetsResponse)
 }

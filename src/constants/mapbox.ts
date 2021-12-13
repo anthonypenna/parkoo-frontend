@@ -1,5 +1,7 @@
 import { LngLatLike } from 'mapbox-gl'
 
+export const MAPBOX_ACCESS_TOKEN = process.env.VUE_APP_MAPBOX_TOKEN || ''
+
 export const MAPBOX_CENTER = [0, 0] as LngLatLike
 
 export const MAPBOX_THEME =
