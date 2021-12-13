@@ -1,10 +1,20 @@
 <template>
-  <transition name="fade">
+  <Fade>
     <div class="overlay">
       <slot />
     </div>
-  </transition>
+  </Fade>
 </template>
+
+<script lang="ts">
+import Vue from "vue";
+import Fade from "@/components/atoms/Fade.vue";
+
+export default Vue.extend({
+  name: "Overlay",
+  components: { Fade },
+});
+</script>
 
 <style lang="scss" scoped>
 .overlay {
@@ -17,11 +27,6 @@
   justify-content: center;
   align-items: center;
   background: #fff;
-  transition: opacity 1s ease;
   z-index: 10;
-}
-
-.fade-leave-active {
-  opacity: 0;
 }
 </style>

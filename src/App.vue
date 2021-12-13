@@ -23,6 +23,11 @@ body {
   text-align: center;
 }
 
+p {
+  max-width: 80%;
+  margin: 1rem auto;
+}
+
 .mapboxgl-ctrl-bottom-left,
 .mapboxgl-ctrl-bottom-right {
   display: none;

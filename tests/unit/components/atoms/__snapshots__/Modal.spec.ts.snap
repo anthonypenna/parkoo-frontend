@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Modal /> should render correctly 1`] = `<div class="modal"></div>`;
+exports[`<Modal /> should render correctly 1`] = `
+<fade-stub>
+  <div class="modal"></div>
+</fade-stub>
+`;
 
-exports[`<Modal /> should render the correct slot 1`] = `<div class="modal">Hello world!</div>`;
+exports[`<Modal /> should render the correct slot 1`] = `
+<fade-stub>
+  <div class="modal">Hello world!</div>
+</fade-stub>
+`;

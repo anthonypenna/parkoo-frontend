@@ -27,12 +27,19 @@
       v-if="showGeolocationErrorModal"
       @tryagain="onGeolocationTryAgain"
     />
+    <NoStreetsModal
+      v-if="showNoStreetsModal"
+      @close="onCloseNoStreetsModal"
+      @addstreet="onAddStreet"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { until } from "@/utils/async";
 import Vue from "vue";
+import Loader from "@/components/atoms/Loader.vue";
+import Overlay from "@/components/atoms/Overlay.vue";
 import { mapActions, mapGetters } from "vuex";
 import * as Mapbox from "mapbox-gl";
 import { Street } from "@/models/Street";
@@ -41,15 +48,32 @@ export default Vue.extend({
   name: "Home",
 
   components: {
-    Loader: () => import("@/components/atoms/Loader.vue"),
-    Overlay: () => import("@/components/atoms/Overlay.vue"),
-    StreetMarker: () => import("@/components/atoms/StreetMarker.vue"),
-    UserCursor: () => import("@/components/atoms/UserCursor.vue"),
-    Map: () => import("@/components/molecules/Map.vue"),
-    StreetsFetchingErrorModal: () =>
-      import("@/components/molecules/StreetsFetchingErrorModal.vue"),
-    GeolocationErrorModal: () =>
-      import("@/components/molecules/GeolocationErrorModal.vue"),
+    Loader,
+    Overlay,
+
+    StreetMarker: () => {
+      return import("@/components/atoms/StreetMarker.vue");
+    },
+
+    UserCursor: () => {
+      return import("@/components/atoms/UserCursor.vue");
+    },
+
+    Map: () => {
+      return import("@/components/molecules/Map.vue");
+    },
+
+    StreetsFetchingErrorModal: () => {
+      return import("@/components/molecules/StreetsFetchingErrorModal.vue");
+    },
+
+    GeolocationErrorModal: () => {
+      return import("@/components/molecules/GeolocationErrorModal.vue");
+    },
+
+    NoStreetsModal: () => {
+      return import("@/components/molecules/NoStreetsModal.vue");
+    },
   },
 
   data() {
@@ -57,6 +81,7 @@ export default Vue.extend({
       isLoading: true,
       showGeolocationErrorModal: false,
       showStreetsFetchingErrorModal: false,
+      showNoStreetsModal: false,
     };
   },
 
@@ -110,6 +135,14 @@ export default Vue.extend({
     isCleanedTomorrow(street: Street) {
       return !!street.cleaningDays[this.currentDay + 1];
     },
+
+    onCloseNoStreetsModal() {
+      this.showNoStreetsModal = false;
+    },
+
+    onAddStreet() {
+      //
+    },
   },
 
   computed: {
@@ -123,11 +156,21 @@ export default Vue.extend({
         this.showGeolocationErrorModal || this.showStreetsFetchingErrorModal
       );
     },
+
+    isReady(): boolean {
+      return !this.isLoading && !this.isError;
+    },
+
+    hasStreets(): boolean {
+      return this.streets.length > 1;
+    },
   },
 
   async mounted() {
-    await Promise.all([this.handleStreetsFetching(), this.handleGeolocation()]);
+    await this.handleGeolocation();
+    await this.handleStreetsFetching();
     if (!this.isError) this.stopLoading();
+    if (this.isReady && !this.hasStreets) this.showNoStreetsModal = true;
   },
 });
 </script>

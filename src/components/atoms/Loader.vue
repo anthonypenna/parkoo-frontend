@@ -1,10 +1,22 @@
 <template>
-  <div class="loader">
-    <div class="loader__ball loader__ball--one"></div>
-    <div class="loader__ball loader__ball--two"></div>
-    <div class="loader__ball loader__ball--three"></div>
-  </div>
+  <Fade>
+    <div class="loader">
+      <div class="loader__ball loader__ball--one"></div>
+      <div class="loader__ball loader__ball--two"></div>
+      <div class="loader__ball loader__ball--three"></div>
+    </div>
+  </Fade>
 </template>
+
+<script lang="ts">
+import Vue from "vue";
+import Fade from "@/components/atoms/Fade.vue";
+
+export default Vue.extend({
+  name: "Loader",
+  components: { Fade },
+});
+</script>
 
 <style lang="scss" scoped>
 .loader {
