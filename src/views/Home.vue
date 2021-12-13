@@ -132,12 +132,3 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
-.fade-enter-active {
-  opacity: 0;
-}
-
-.fade-leave-active {
-  opacity: 0;
-}
-</style>
