@@ -1,7 +1,7 @@
 import { MapboxState } from '@/models/MapboxState'
 import { Module } from 'vuex'
 import { Map, LngLatLike } from 'mapbox-gl'
-import { MAPBOX_CENTER, MAPBOX_THEME, MAPBOX_ZOOM } from '@/constants/mapbox'
+import { MAPBOX_THEME, MAPBOX_ZOOM } from '@/constants/mapbox'
 import { Position } from '@/models/Position'
 import { getInitialCenter } from '@/utils/mapbox'
 

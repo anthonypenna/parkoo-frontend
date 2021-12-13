@@ -1,5 +1,5 @@
 <template>
-  <div class="user-cursor"></div>
+  <div v-once class="user-cursor"></div>
 </template>
 
 <script lang="ts">

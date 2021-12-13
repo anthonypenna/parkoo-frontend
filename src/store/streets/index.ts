@@ -31,5 +31,6 @@ export const streetsStore: Module<StreetsState, unknown> = {
 
   getters: {
     streets: state => state.streets,
+    hasStreets: state => state.streets.length > 0,
   },
 }

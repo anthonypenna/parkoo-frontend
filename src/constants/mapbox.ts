@@ -8,3 +8,5 @@ export const MAPBOX_THEME =
   'mapbox://styles/anthonypenna/ckwt4kriz2ivh15nvz54lzhz3?optimize=true'
 
 export const MAPBOX_ZOOM = 17
+
+export const MAPBOX_FLY_SPEED = 6

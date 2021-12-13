@@ -1,5 +1,6 @@
 <template>
   <svg
+    v-once
     width="32"
     height="48"
     viewBox="0 0 32 48"

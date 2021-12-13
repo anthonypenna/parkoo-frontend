@@ -87,5 +87,23 @@ describe('streets store', () => {
         expect(streets).toEqual([])
       })
     })
+
+    describe('hasStreets', () => {
+      describe('when there are no streets', () => {
+        it('should return false', () => {
+          const hasStreets = store.getters['streets/hasStreets']
+          expect(hasStreets).toEqual(false)
+        })
+      })
+
+      describe('when there are streets', () => {
+        it('should return true', () => {
+          store.commit('streets/setStreets', [{}])
+
+          const hasStreets = store.getters['streets/hasStreets']
+          expect(hasStreets).toEqual(true)
+        })
+      })
+    })
   })
 })

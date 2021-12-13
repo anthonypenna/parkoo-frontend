@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header v-once class="header">
     <h1 class="header__title">parkoo</h1>
   </header>
 </template>

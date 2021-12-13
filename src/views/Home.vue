@@ -1,177 +1,134 @@
 <template>
   <div class="home">
-    <Overlay v-if="isLoading">
-      <Loader />
-    </Overlay>
+    <Loading v-if="isLoading" />
     <Map
+      v-if="isMapReadyToLoad"
       :accessToken="accessToken"
       :center="center"
       :theme="theme"
       :zoom="zoom"
-      @load="handleMapLoad"
+      @load="onMapLoad"
     >
-      <UserCursor :lat="lat" :lng="lng" />
+      <UserMarker :lat="lat" :lng="lng" />
       <StreetMarker
         v-for="street of streets"
-        :key="street.id"
-        :cleanedTomorrow="isCleanedTomorrow(street)"
+        :key="street._id"
         :lat="street.lat"
         :lng="street.lng"
+        :cleanedTomorrow="isStreetCleanedTomorrow(street)"
       />
     </Map>
-    <StreetsFetchingErrorModal
-      v-if="showStreetsFetchingErrorModal"
-      @tryagain="onStreetsFetchingTryAgain"
-    />
-    <GeolocationErrorModal
-      v-if="showGeolocationErrorModal"
-      @tryagain="onGeolocationTryAgain"
-    />
+    <GeolocationErrorModal v-if="isGeolocationError" />
+    <StreetsFetchingErrorModal v-if="isStreetsFetchingError" />
     <NoStreetsModal
       v-if="showNoStreetsModal"
-      @close="onCloseNoStreetsModal"
+      @close="onNoStreetsModalClose"
       @addstreet="onAddStreet"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { until } from "@/utils/async";
 import Vue from "vue";
-import Loader from "@/components/atoms/Loader.vue";
-import Overlay from "@/components/atoms/Overlay.vue";
+import Loading from "@/components/molecules/Loading.vue";
 import { mapActions, mapGetters } from "vuex";
-import * as Mapbox from "mapbox-gl";
-import { Street } from "@/models/Street";
+import { until } from "@/utils/async";
+import { LngLat, Map } from "mapbox-gl";
+import { areEqual } from "@/utils/array";
+import { MAPBOX_FLY_SPEED } from "@/constants/mapbox";
+import { isStreetCleanedTomorrow } from "@/utils/street";
 
 export default Vue.extend({
   name: "Home",
 
   components: {
-    Loader,
-    Overlay,
+    Loading,
 
-    StreetMarker: () => {
-      return import("@/components/atoms/StreetMarker.vue");
-    },
+    GeolocationErrorModal: () =>
+      import("@/components/molecules/GeolocationErrorModal.vue"),
 
-    UserCursor: () => {
-      return import("@/components/atoms/UserCursor.vue");
-    },
+    StreetsFetchingErrorModal: () =>
+      import("@/components/molecules/StreetsFetchingErrorModal.vue"),
 
-    Map: () => {
-      return import("@/components/molecules/Map.vue");
-    },
+    NoStreetsModal: () => import("@/components/molecules/NoStreetsModal.vue"),
 
-    StreetsFetchingErrorModal: () => {
-      return import("@/components/molecules/StreetsFetchingErrorModal.vue");
-    },
+    Map: () => import("@/components/molecules/Map.vue"),
 
-    GeolocationErrorModal: () => {
-      return import("@/components/molecules/GeolocationErrorModal.vue");
-    },
+    UserMarker: () => import("@/components/atoms/UserCursor.vue"),
 
-    NoStreetsModal: () => {
-      return import("@/components/molecules/NoStreetsModal.vue");
-    },
+    StreetMarker: () => import("@/components/atoms/StreetMarker.vue"),
   },
 
   data() {
     return {
+      isGeolocationError: false,
+      isStreetsFetchingError: false,
+      isMapReadyToLoad: false,
       isLoading: true,
-      showGeolocationErrorModal: false,
-      showStreetsFetchingErrorModal: false,
       showNoStreetsModal: false,
     };
+  },
+
+  computed: {
+    ...mapGetters("mapbox", ["accessToken", "center", "map", "theme", "zoom"]),
+    ...mapGetters("user", ["lat", "lng"]),
+    ...mapGetters("streets", ["streets", "hasStreets"]),
   },
 
   methods: {
     ...mapActions("user", ["getPosition"]),
     ...mapActions("streets", ["getStreets"]),
 
-    async handleStreetsFetching() {
-      const [error] = await until(this.getStreets);
-      if (error) this.handleStreetsFetchingError();
+    isStreetCleanedTomorrow,
+
+    async initialize() {
+      const [geolocationError] = await until(this.getPosition);
+
+      if (geolocationError) {
+        this.isGeolocationError = true;
+        return;
+      }
+
+      const [streetsFetchingError] = await until(this.getStreets);
+
+      if (streetsFetchingError) {
+        this.isStreetsFetchingError = true;
+        return;
+      }
+
+      this.isMapReadyToLoad = true;
     },
 
-    handleStreetsFetchingError() {
-      this.showStreetsFetchingErrorModal = true;
+    onMapLoad() {
+      const map = this.map as Map;
+      const mapCenter = map.getCenter().toArray();
+      const userPosition = new LngLat(this.lng, this.lat);
+
+      if (areEqual(mapCenter, userPosition.toArray())) return this.onMapReady();
+
+      map.once("moveend", this.onMapReady);
+      map.flyTo({ center: userPosition, speed: MAPBOX_FLY_SPEED });
     },
 
-    onStreetsFetchingTryAgain() {
-      this.showStreetsFetchingErrorModal = false;
-      this.handleStreetsFetching();
-    },
-
-    async handleGeolocation() {
-      const [error] = await until(this.getPosition);
-      if (error) this.handleGeolocationError();
-    },
-
-    handleGeolocationError() {
-      this.showGeolocationErrorModal = true;
-    },
-
-    onGeolocationTryAgain() {
-      this.showGeolocationErrorModal = false;
-      this.handleGeolocation();
-    },
-
-    stopLoading() {
+    onMapReady() {
       this.isLoading = false;
+
+      if (!this.hasStreets) {
+        this.showNoStreetsModal = true;
+      }
     },
 
-    handleMapLoad() {
-      if (this.isError) return;
-      this.goToCoordinates(this.lat, this.lng);
-    },
-
-    goToCoordinates(lat: number, lng: number) {
-      const map = this.map as Mapbox.Map;
-      const center = [lng, lat] as Mapbox.LngLatLike;
-      map.flyTo({ center, speed: 2 });
-    },
-
-    isCleanedTomorrow(street: Street) {
-      return !!street.cleaningDays[this.currentDay + 1];
-    },
-
-    onCloseNoStreetsModal() {
+    onNoStreetsModalClose() {
       this.showNoStreetsModal = false;
     },
 
     onAddStreet() {
-      //
+      alert("Todo!");
     },
   },
 
-  computed: {
-    ...mapGetters("mapbox", ["map", "accessToken", "center", "theme", "zoom"]),
-    ...mapGetters("user", ["lat", "lng"]),
-    ...mapGetters("streets", ["streets"]),
-    ...mapGetters("date", ["currentDay"]),
-
-    isError(): boolean {
-      return (
-        this.showGeolocationErrorModal || this.showStreetsFetchingErrorModal
-      );
-    },
-
-    isReady(): boolean {
-      return !this.isLoading && !this.isError;
-    },
-
-    hasStreets(): boolean {
-      return this.streets.length > 1;
-    },
-  },
-
-  async mounted() {
-    await this.handleGeolocation();
-    await this.handleStreetsFetching();
-    if (!this.isError) this.stopLoading();
-    if (this.isReady && !this.hasStreets) this.showNoStreetsModal = true;
+  mounted() {
+    this.initialize();
   },
 });
 </script>
-

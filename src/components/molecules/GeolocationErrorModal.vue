@@ -1,25 +1,24 @@
 
 <template>
-  <TryAgainModal @tryagain="onTryAgain">
-    <h2>Oops!</h2>
+  <Modal>
+    <h2>Oh oh!</h2>
     <p>
-      Parkoo needs access to your location <br />in order to work correctly.
+      Parkoo needs access to your <strong>location</strong> in order to work
+      correctly.
     </p>
-    <p>Please check your settings and try again</p>
-  </TryAgainModal>
+    <p>
+      Please check your <strong>settings</strong>, refresh the page and try
+      again
+    </p>
+  </Modal>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import TryAgainModal from "@/components/molecules/TryAgainModal.vue";
+import Modal from "@/components/atoms/Modal.vue";
 
 export default Vue.extend({
   name: "GeolocationErrorModal",
-  components: { TryAgainModal },
-  methods: {
-    onTryAgain() {
-      this.$emit("tryagain");
-    },
-  },
+  components: { Modal },
 });
 </script>

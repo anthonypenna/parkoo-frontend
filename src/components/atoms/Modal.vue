@@ -22,15 +22,19 @@ export default Vue.extend({
   },
 
   mounted() {
-    const map = this.map as Map;
-    map.dragPan.disable();
-    map.scrollZoom.disable();
+    if (this.map) {
+      const map = this.map as Map;
+      map.dragPan.disable();
+      map.scrollZoom.disable();
+    }
   },
 
   destroyed() {
-    const map = this.map as Map;
-    map.dragPan.enable();
-    map.scrollZoom.enable();
+    if (this.map) {
+      const map = this.map as Map;
+      map.dragPan.enable();
+      map.scrollZoom.enable();
+    }
   },
 });
 </script>

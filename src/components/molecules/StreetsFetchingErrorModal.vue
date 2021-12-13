@@ -1,22 +1,22 @@
 <template>
-  <TryAgainModal @tryagain="onTryAgain">
-    <h2>Oops!</h2>
-    <p>Parkoo had trouble while connecting to the server</p>
-    <p>Try again later</p>
-  </TryAgainModal>
+  <Modal>
+    <h2>Oh oh!</h2>
+    <p>
+      Seems like <strong>Parkoo</strong> couldn't connect to the
+      <strong>server</strong>!
+    </p>
+    <p>
+      We're working on it, so feel free to <strong>try again</strong> later.
+    </p>
+  </Modal>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import TryAgainModal from "@/components/molecules/TryAgainModal.vue";
+import Modal from "@/components/atoms/Modal.vue";
 
 export default Vue.extend({
   name: "StreetsFetchingErrorModal",
-  components: { TryAgainModal },
-  methods: {
-    onTryAgain() {
-      this.$emit("tryagain");
-    },
-  },
+  components: { Modal },
 });
 </script>
