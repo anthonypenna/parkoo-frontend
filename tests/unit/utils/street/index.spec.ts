@@ -13,7 +13,15 @@ describe('isStreetCleanedTomorrow', () => {
   describe('when the street wont be cleaned tomorrow', () => {
     it('should return false', () => {
       const street: Street = {
-        cleaningDays: { 0: true },
+        cleaningDays: {
+          0: true,
+          1: false,
+          2: false,
+          3: false,
+          4: false,
+          5: false,
+          6: false,
+        },
         id: '',
         lat: 45,
         lng: 9,
@@ -26,7 +34,15 @@ describe('isStreetCleanedTomorrow', () => {
   describe('when the street will be cleaned tomorrow', () => {
     it('should return true', () => {
       const street: Street = {
-        cleaningDays: { 2: true },
+        cleaningDays: {
+          0: false,
+          1: false,
+          2: true,
+          3: false,
+          4: false,
+          5: false,
+          6: false,
+        },
         id: '',
         lat: 45,
         lng: 9,

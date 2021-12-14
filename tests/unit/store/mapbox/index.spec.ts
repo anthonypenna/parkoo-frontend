@@ -3,20 +3,22 @@ import { MapboxState } from '@/models/MapboxState'
 import { mapboxStore } from '@/store/mapbox'
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import * as Mapbox from 'mapbox-gl'
+import { RootState } from '@/models/RootState'
+import { until } from '@/utils/async'
+import * as GeocodingService from '@/services/geocoding'
 
 jest.mock('mapbox-gl', () => ({
-  Map: class {
-    flyTo = jest.fn()
-  },
+  Map: jest.fn(),
 }))
+
+jest.mock('@/services/geocoding')
 
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
 describe('mapbox store', () => {
-  const store = new Vuex.Store<{ mapbox: MapboxState }>({
+  const store = new Vuex.Store<RootState>({
     modules: {
       mapbox: { ...mapboxStore },
     },
@@ -48,16 +50,36 @@ describe('mapbox store', () => {
   })
 
   describe('actions', () => {
-    describe('goToCoordinates', () => {
-      describe('when the map is not null', () => {
-        it('should go to the specified coordinates', () => {
-          store.commit('mapbox/setMap', new Mapbox.Map())
+    describe('getStreetInfoFromCoordinates', () => {
+      describe('when reverse geocoding fails', () => {
+        it('should throw', async () => {
+          jest.spyOn(GeocodingService, 'reverseGeocode').mockRejectedValue({})
 
-          const map = store.getters['mapbox/map'] as Mapbox.Map
-          const flyTo = jest.spyOn(map, 'flyTo')
+          const [error] = await until(() =>
+            store.dispatch('mapbox/getStreetNameFromCoordinates', {
+              lat: 0,
+              lng: 0,
+            })
+          )
 
-          store.dispatch('mapbox/goToCoordinates', { lat: 45, lng: 9 })
-          expect(flyTo).toHaveBeenCalledWith({ center: [9, 45] })
+          expect(error).toEqual({})
+        })
+      })
+
+      describe('when geocoding succeeds', () => {
+        it('should return the name of the street', async () => {
+          jest.spyOn(GeocodingService, 'reverseGeocode').mockResolvedValue({
+            features: [{ id: 'foo', text: 'foo' }],
+          })
+
+          const [_, response] = await until(() =>
+            store.dispatch('mapbox/getStreetNameFromCoordinates', {
+              lat: 0,
+              lng: 0,
+            })
+          )
+
+          expect(response).toEqual({ id: 'foo', text: 'foo' })
         })
       })
     })

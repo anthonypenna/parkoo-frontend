@@ -1,6 +1,6 @@
 import { Street } from '@/models/Street'
 import { StreetsState } from '@/models/StreetsState'
-import { getStreets } from '@/services/streets'
+import { createStreet, getStreets } from '@/services/streets'
 import { until } from '@/utils/async'
 import { Module } from 'vuex'
 
@@ -26,6 +26,12 @@ export const streetsStore: Module<StreetsState, unknown> = {
       }
 
       store.commit('setStreets', response?.streets)
+    },
+
+    async createStreet(store, street: Street) {
+      const [error] = await until(() => createStreet(street))
+      if (error) throw error
+      await store.dispatch('getStreets')
     },
   },
 

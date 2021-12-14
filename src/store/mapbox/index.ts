@@ -1,11 +1,14 @@
 import { MapboxState } from '@/models/MapboxState'
 import { Module } from 'vuex'
-import { Map, LngLatLike } from 'mapbox-gl'
+import { Map } from 'mapbox-gl'
 import { MAPBOX_THEME, MAPBOX_ZOOM } from '@/constants/mapbox'
-import { Position } from '@/models/Position'
 import { getInitialCenter } from '@/utils/mapbox'
+import { RootState } from '@/models/RootState'
+import { reverseGeocode } from '@/services/geocoding'
+import { Position } from '@/models/Position'
+import { until } from '@/utils/async'
 
-export const mapboxStore: Module<MapboxState, unknown> = {
+export const mapboxStore: Module<MapboxState, RootState> = {
   namespaced: true,
 
   state: {
@@ -23,15 +26,15 @@ export const mapboxStore: Module<MapboxState, unknown> = {
   },
 
   actions: {
-    goToCoordinates(store, { lat, lng }: Position) {
-      const map = store.getters['map'] as Map | null
+    async getStreetNameFromCoordinates(store, { lat, lng }: Position) {
+      const accessToken = store.getters['accessToken']
+      const [error, response] = await until(() =>
+        reverseGeocode(lat, lng, accessToken)
+      )
 
-      if (!map) {
-        return
-      }
+      if (error) throw error
 
-      const center = [lng, lat] as LngLatLike
-      map.flyTo({ center })
+      return response?.features[0]
     },
   },
 

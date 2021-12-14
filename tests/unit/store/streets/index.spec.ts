@@ -25,6 +25,10 @@ describe('streets store', () => {
     store.replaceState(JSON.parse(initialState))
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('should have a default state', () => {
     expect(store.state.streets).toEqual<StreetsState>({
       streets: [],
@@ -35,7 +39,20 @@ describe('streets store', () => {
     describe('setStreets', () => {
       it('should set the streets', () => {
         const streets: Street[] = [
-          { cleaningDays: { 0: true }, id: '', lat: 45, lng: 9 },
+          {
+            cleaningDays: {
+              '0': false,
+              1: false,
+              2: false,
+              3: false,
+              4: false,
+              5: false,
+              6: false,
+            },
+            id: '',
+            lat: 45,
+            lng: 9,
+          },
         ]
 
         store.commit('streets/setStreets', streets)
@@ -67,14 +84,91 @@ describe('streets store', () => {
       describe('when the request succeeds', () => {
         it('should set the store streets', async () => {
           jest.spyOn(StreetsService, 'getStreets').mockResolvedValue({
-            streets: [{ cleaningDays: { 0: true }, id: '', lat: 0, lng: 0 }],
+            streets: [
+              {
+                cleaningDays: {
+                  '0': false,
+                  1: false,
+                  2: false,
+                  3: false,
+                  4: false,
+                  5: false,
+                  6: false,
+                },
+                id: '',
+                lat: 0,
+                lng: 0,
+              },
+            ],
           })
 
           await store.dispatch('streets/getStreets')
 
           expect(store.state.streets.streets).toEqual([
-            { cleaningDays: { 0: true }, id: '', lat: 0, lng: 0 },
+            {
+              cleaningDays: {
+                '0': false,
+                1: false,
+                2: false,
+                3: false,
+                4: false,
+                5: false,
+                6: false,
+              },
+              id: '',
+              lat: 0,
+              lng: 0,
+            },
           ])
+        })
+      })
+    })
+
+    describe('createStore', () => {
+      it('should create a new street', async () => {
+        const createStreet = jest.spyOn(StreetsService, 'createStreet')
+        await store.dispatch('streets/createStreet')
+        expect(createStreet).toHaveBeenCalled()
+      })
+
+      describe('when the request fails', () => {
+        it('should throw', async () => {
+          jest
+            .spyOn(StreetsService, 'createStreet')
+            .mockRejectedValue({ message: 'Error!' })
+
+          const [error] = await until(() =>
+            store.dispatch('streets/createStreet')
+          )
+
+          expect(error).toEqual({ message: 'Error!' })
+        })
+      })
+
+      describe('when the request succeeds', () => {
+        it('should update the street list', async () => {
+          jest.spyOn(StreetsService, 'createStreet').mockResolvedValue({
+            street: {
+              cleaningDays: {
+                0: false,
+                1: false,
+                2: false,
+                3: false,
+                4: false,
+                5: false,
+                6: false,
+              },
+              id: 'address.3129823489',
+              lat: 45,
+              lng: 9,
+            },
+          })
+
+          const dispatch = jest.spyOn(store, 'dispatch')
+          await store.dispatch('streets/createStreet')
+
+          dispatch.mock.calls.splice(0, 1)
+          expect(dispatch).toHaveBeenCalledWith('streets/getStreets', undefined)
         })
       })
     })

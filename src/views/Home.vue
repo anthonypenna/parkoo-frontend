@@ -18,13 +18,21 @@
         :cleanedTomorrow="isStreetCleanedTomorrow(street)"
       />
     </Map>
-    <GeolocationErrorModal v-if="isGeolocationError" />
-    <StreetsFetchingErrorModal v-if="isStreetsFetchingError" />
+    <AddButton v-show="showAddStreetButton" class="home__add-street-button" />
+    <GeolocationErrorModal v-show="isGeolocationError" />
+    <StreetsFetchingErrorModal v-show="isStreetsFetchingError" />
     <NoStreetsModal
-      v-if="showNoStreetsModal"
+      v-show="showNoStreetsModal"
       @close="onNoStreetsModalClose"
       @addstreet="onAddStreet"
     />
+    <AddStreetModal
+      v-show="showAddStreetModal"
+      @cancel="onAddStreetModalCancel"
+      @add="onAddStreetModalAdd"
+    >
+      <template #street-name>{{ nameOfStreetBeingAdded }}</template>
+    </AddStreetModal>
   </div>
 </template>
 
@@ -37,6 +45,8 @@ import { LngLat, Map } from "mapbox-gl";
 import { areEqual } from "@/utils/array";
 import { MAPBOX_FLY_SPEED } from "@/constants/mapbox";
 import { isStreetCleanedTomorrow } from "@/utils/street";
+import { Street } from "@/models/Street";
+import { createStreet } from "@/services/streets";
 
 export default Vue.extend({
   name: "Home",
@@ -57,6 +67,10 @@ export default Vue.extend({
     UserMarker: () => import("@/components/atoms/UserCursor.vue"),
 
     StreetMarker: () => import("@/components/atoms/StreetMarker.vue"),
+
+    AddStreetModal: () => import("@/components/molecules/AddStreetModal.vue"),
+
+    AddButton: () => import("@/components/atoms/AddButton.vue"),
   },
 
   data() {
@@ -66,6 +80,10 @@ export default Vue.extend({
       isMapReadyToLoad: false,
       isLoading: true,
       showNoStreetsModal: false,
+      showAddStreetModal: false,
+      showAddStreetButton: false,
+      idOfStreetBeingAdded: "",
+      nameOfStreetBeingAdded: "",
     };
   },
 
@@ -77,7 +95,8 @@ export default Vue.extend({
 
   methods: {
     ...mapActions("user", ["getPosition"]),
-    ...mapActions("streets", ["getStreets"]),
+    ...mapActions("streets", ["getStreets", "createStreet"]),
+    ...mapActions("mapbox", ["getStreetNameFromCoordinates"]),
 
     isStreetCleanedTomorrow,
 
@@ -120,10 +139,41 @@ export default Vue.extend({
 
     onNoStreetsModalClose() {
       this.showNoStreetsModal = false;
+      this.showAddStreetButton = true;
     },
 
-    onAddStreet() {
-      alert("Todo!");
+    async onAddStreet() {
+      const [error, response] = await until(() =>
+        this.getStreetNameFromCoordinates(this)
+      );
+
+      if (error) {
+        this.isStreetsFetchingError = true;
+        this.showNoStreetsModal = false;
+        return;
+      }
+
+      this.idOfStreetBeingAdded = response.id;
+      this.nameOfStreetBeingAdded = response.text;
+      this.showNoStreetsModal = false;
+      this.showAddStreetModal = true;
+    },
+
+    onAddStreetModalCancel() {
+      this.showAddStreetModal = false;
+    },
+
+    async onAddStreetModalAdd(street: Street) {
+      street.id = this.idOfStreetBeingAdded;
+
+      const [error, response] = await until(() => createStreet(street));
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      console.log(response);
     },
   },
 
@@ -132,3 +182,13 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.home {
+  &__add-street-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
+</style>

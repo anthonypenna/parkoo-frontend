@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AddStreetModal /> should render correctly 1`] = `
+<promptmodal-stub>
+  <h2>Add new street</h2>
+  <p></p>
+  <h3 class="add-street-modal__subsection">Cleaning days</h3>
+  <div class="add-street-modal__cleaning-days">
+    <div class="add-street-modal__cleaning-day">
+      <checkbox-stub name="1"></checkbox-stub>
+    </div>
+    <div class="add-street-modal__cleaning-day">
+      <checkbox-stub name="2"></checkbox-stub>
+    </div>
+    <div class="add-street-modal__cleaning-day">
+      <checkbox-stub name="3"></checkbox-stub>
+    </div>
+    <div class="add-street-modal__cleaning-day">
+      <checkbox-stub name="4"></checkbox-stub>
+    </div>
+    <div class="add-street-modal__cleaning-day">
+      <checkbox-stub name="5"></checkbox-stub>
+    </div>
+    <div class="add-street-modal__cleaning-day">
+      <checkbox-stub name="6"></checkbox-stub>
+    </div>
+    <div class="add-street-modal__cleaning-day">
+      <checkbox-stub name="0"></checkbox-stub>
+    </div>
+  </div>
+</promptmodal-stub>
+`;
