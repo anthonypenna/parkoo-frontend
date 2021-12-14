@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Checkbox /> when checked should render correctly 1`] = `
+<div class="checkbox"><label for="foo" class="checkbox__label"></label>
+  <div class="checkbox__input"><input type="checkbox" name="foo">
+    <checkmark-stub></checkmark-stub>
+  </div>
+</div>
+`;
+
+exports[`<Checkbox /> when unchecked should render correctly 1`] = `
+<div class="checkbox"><label for="foo" class="checkbox__label"></label>
+  <div class="checkbox__input"><input type="checkbox" name="foo">
+    <checkmark-stub style="display: none;"></checkmark-stub>
+  </div>
+</div>
+`;
