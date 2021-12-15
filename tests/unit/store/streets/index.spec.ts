@@ -4,9 +4,11 @@ import { streetsStore } from '@/store/streets'
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import * as StreetsService from '@/services/streets'
+import * as StreetUtils from '@/utils/street'
 import { until } from '@/utils/async'
 
 jest.mock('@/services/streets')
+jest.mock('@/utils/street')
 
 const localVue = createLocalVue()
 
@@ -196,6 +198,34 @@ describe('streets store', () => {
 
           const hasStreets = store.getters['streets/hasStreets']
           expect(hasStreets).toEqual(true)
+        })
+      })
+    })
+
+    describe('isStreetCleanedTomorrow', () => {
+      describe('when the street isnt cleaned tomorrow', () => {
+        it('should return false', () => {
+          jest
+            .spyOn(StreetUtils, 'isStreetCleanedTomorrow')
+            .mockReturnValue(false)
+
+          const isStreetCleanedTomorrow =
+            store.getters['streets/isStreetCleanedTomorrow']()
+
+          expect(isStreetCleanedTomorrow).toEqual(false)
+        })
+      })
+
+      describe('when the street is cleaned tomorrow', () => {
+        it('should return true', () => {
+          jest
+            .spyOn(StreetUtils, 'isStreetCleanedTomorrow')
+            .mockReturnValue(true)
+
+          const isStreetCleanedTomorrow =
+            store.getters['streets/isStreetCleanedTomorrow']()
+
+          expect(isStreetCleanedTomorrow).toEqual(true)
         })
       })
     })

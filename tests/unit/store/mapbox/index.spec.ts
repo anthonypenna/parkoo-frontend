@@ -2,8 +2,7 @@ import { MAPBOX_CENTER, MAPBOX_THEME, MAPBOX_ZOOM } from '@/constants/mapbox'
 import { MapboxState } from '@/models/MapboxState'
 import { mapboxStore } from '@/store/mapbox'
 import { createLocalVue } from '@vue/test-utils'
-import Vuex from 'vuex'
-import { RootState } from '@/models/RootState'
+import Vuex, { Module } from 'vuex'
 import { until } from '@/utils/async'
 import * as GeocodingService from '@/services/geocoding'
 
@@ -18,9 +17,9 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('mapbox store', () => {
-  const store = new Vuex.Store<RootState>({
+  const store = new Vuex.Store<{ mapbox: MapboxState }>({
     modules: {
-      mapbox: { ...mapboxStore },
+      mapbox: { ...mapboxStore } as Module<MapboxState, unknown>,
     },
   })
 

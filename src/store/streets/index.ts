@@ -2,6 +2,7 @@ import { Street } from '@/models/Street'
 import { StreetsState } from '@/models/StreetsState'
 import { createStreet, getStreets } from '@/services/streets'
 import { until } from '@/utils/async'
+import { isStreetCleanedTomorrow } from '@/utils/street'
 import { Module } from 'vuex'
 
 export const streetsStore: Module<StreetsState, unknown> = {
@@ -38,5 +39,6 @@ export const streetsStore: Module<StreetsState, unknown> = {
   getters: {
     streets: state => state.streets,
     hasStreets: state => state.streets.length > 0,
+    isStreetCleanedTomorrow: () => isStreetCleanedTomorrow,
   },
 }

@@ -7,35 +7,12 @@
 </template>
 
 <script lang="ts">
-import { Map } from "mapbox-gl";
 import Vue from "vue";
 import Fade from "@/components/atoms/Fade.vue";
-import { mapGetters } from "vuex";
 
 export default Vue.extend({
   name: "Modal",
-
   components: { Fade },
-
-  computed: {
-    ...mapGetters("mapbox", ["map"]),
-  },
-
-  mounted() {
-    if (this.map) {
-      const map = this.map as Map;
-      map.dragPan.disable();
-      map.scrollZoom.disable();
-    }
-  },
-
-  destroyed() {
-    if (this.map) {
-      const map = this.map as Map;
-      map.dragPan.enable();
-      map.scrollZoom.enable();
-    }
-  },
 });
 </script>
 

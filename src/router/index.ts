@@ -10,6 +10,21 @@ const routes: Array<RouteConfig> = [
     name: 'Home',
     component: Home,
   },
+  {
+    path: '/geolocation',
+    name: 'Geolocation',
+    component: () => import('@/views/Geolocation.vue'),
+  },
+  {
+    path: '/streets',
+    name: 'Streets',
+    component: () => import('@/views/Streets.vue'),
+  },
+  {
+    path: '/map',
+    name: 'Map',
+    component: () => import('@/views/Map.vue'),
+  },
 ]
 
 const router = new VueRouter({
