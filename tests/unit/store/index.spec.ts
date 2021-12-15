@@ -1,3 +1,4 @@
+import { BannerType } from '@/constants/banner'
 import { RootState } from '@/models/RootState'
 import { createLocalVue } from '@vue/test-utils'
 import Vue, { VueConstructor } from 'vue'
@@ -10,6 +11,9 @@ const storeOptions: StoreOptions<RootState> = {
     showAddStreetModal: false,
     showLoading: true,
     showNoStreetsModal: false,
+    showBanner: false,
+    bannerData: '',
+    bannerType: BannerType.Error,
   },
   mutations: {
     setHasFetchedGeolocation: jest.fn((state, hasFetchedGeolocation) => {
@@ -27,6 +31,11 @@ const storeOptions: StoreOptions<RootState> = {
     setShowNoStreetsModal: jest.fn((state, showNoStreetsModal) => {
       state.showNoStreetsModal = showNoStreetsModal
     }),
+    setBannerState: jest.fn((state, bannerState) => {
+      state.bannerData = bannerState.text
+      state.bannerType = bannerState.type
+      state.showBanner = bannerState.visible
+    }),
   },
   getters: {
     hasFetchedGeolocation: jest.fn(state => state.hasFetchedGeolocation),
@@ -34,6 +43,9 @@ const storeOptions: StoreOptions<RootState> = {
     showAddStreetModal: jest.fn(state => state.showAddStreetModal),
     showLoading: jest.fn(state => state.showLoading),
     showNoStreetsModal: jest.fn(state => state.showNoStreetsModal),
+    showBanner: jest.fn(state => state.showBanner),
+    bannerType: jest.fn(state => state.bannerType),
+    bannerData: jest.fn(state => state.bannerData),
   },
 }
 
@@ -58,6 +70,9 @@ describe('store', () => {
       showAddStreetModal: false,
       showLoading: true,
       showNoStreetsModal: false,
+      showBanner: false,
+      bannerData: '',
+      bannerType: BannerType.Error,
     })
   })
 
@@ -96,6 +111,19 @@ describe('store', () => {
         expect(store.state.showNoStreetsModal).toEqual(true)
       })
     })
+
+    describe('setBannerState', () => {
+      it('should set the banner state', () => {
+        store.commit('setBannerState', {
+          visible: true,
+          type: BannerType.Success,
+          text: 'Hello!',
+        })
+        expect(store.state.bannerData).toEqual('Hello!')
+        expect(store.state.bannerType).toEqual(BannerType.Success)
+        expect(store.state.showBanner).toEqual(true)
+      })
+    })
   })
 
   describe('getters', () => {
@@ -126,6 +154,24 @@ describe('store', () => {
     describe('showNoStreetsModal', () => {
       it('should return the no streets modal state', () => {
         expect(store.getters['showNoStreetsModal']).toEqual(true)
+      })
+    })
+
+    describe('showBanner', () => {
+      it('should return the show banner state', () => {
+        expect(store.getters['showBanner']).toEqual(true)
+      })
+    })
+
+    describe('bannerType', () => {
+      it('should return the banner type state', () => {
+        expect(store.getters['bannerType']).toEqual(BannerType.Success)
+      })
+    })
+
+    describe('bannerData', () => {
+      it('should return the banner data state', () => {
+        expect(store.getters['bannerData']).toEqual('Hello!')
       })
     })
   })

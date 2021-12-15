@@ -1,3 +1,5 @@
+import { BannerType } from '@/constants/banner'
+import { BannerState } from '@/models/BannerState'
 import { RootState } from '@/models/RootState'
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -15,6 +17,9 @@ export default new Vuex.Store<RootState>({
     hasFetchedStreets: false,
     showNoStreetsModal: false,
     showAddStreetModal: false,
+    showBanner: false,
+    bannerData: '',
+    bannerType: BannerType.Error,
   },
   mutations: {
     setShowLoading(state, showLoading: boolean) {
@@ -32,6 +37,11 @@ export default new Vuex.Store<RootState>({
     setShowAddStreetModal(state, showAddStreetModal: boolean) {
       state.showAddStreetModal = showAddStreetModal
     },
+    setBannerState(state, bannerState: BannerState) {
+      state.bannerData = bannerState.text
+      state.bannerType = bannerState.type
+      state.showBanner = bannerState.visible
+    },
   },
   getters: {
     hasFetchedGeolocation: state => state.hasFetchedGeolocation,
@@ -41,6 +51,9 @@ export default new Vuex.Store<RootState>({
     showAddStreetModal: state => state.showAddStreetModal,
     showLoading: state => state.showLoading,
     showNoStreetsModal: state => state.showNoStreetsModal,
+    showBanner: state => state.showBanner,
+    bannerType: state => state.bannerType,
+    bannerData: state => state.bannerData,
   },
   modules: {
     mapbox: mapboxStore,

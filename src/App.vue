@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header />
+    <Banner />
     <router-view />
     <Loading v-show="showLoading" />
   </div>
@@ -10,11 +11,12 @@
 import Vue from "vue";
 import Header from "@/components/atoms/Header.vue";
 import Loading from "@/components/molecules/Loading.vue";
+import Banner from "@/components/atoms/Banner.vue";
 import { mapGetters } from "vuex";
 
 export default Vue.extend({
   name: "App",
-  components: { Header, Loading },
+  components: { Header, Loading, Banner },
   computed: { ...mapGetters(["showLoading"]) },
 });
 </script>

@@ -18,7 +18,7 @@ self.addEventListener('fetch', async event => {
   const isCacheable =
     url.includes(mapboxAssetFormat) ||
     url.includes(geocodingEndpoint) ||
-    url.include(mapStyle)
+    url.includes(mapStyle)
 
   if (url.startsWith(mapboxDomain) && isCacheable) {
     event.respondWith(

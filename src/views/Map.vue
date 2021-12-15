@@ -41,6 +41,7 @@ import { LngLat, Map } from "mapbox-gl";
 import { areEqual } from "@/utils/array";
 import { MAPBOX_FLY_SPEED } from "@/constants/mapbox";
 import { mapMiddleware } from "@/middleware/map";
+import { BannerType } from "@/constants/banner";
 
 export default Vue.extend({
   name: "MapView",
@@ -70,6 +71,7 @@ export default Vue.extend({
       "setShowLoading",
       "setShowNoStreetsModal",
       "setShowAddStreetModal",
+      "setBannerState",
     ]),
 
     onMapLoad() {
@@ -104,7 +106,11 @@ export default Vue.extend({
     },
 
     onAddStreetModalAdd() {
-      alert("Todo!");
+      this.setBannerState({
+        text: "Oh Oh!",
+        type: BannerType.Error,
+        visible: true,
+      });
     },
   },
 });
