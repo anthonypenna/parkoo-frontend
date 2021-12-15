@@ -42,6 +42,10 @@ import { areEqual } from "@/utils/array";
 import { MAPBOX_FLY_SPEED } from "@/constants/mapbox";
 import { mapMiddleware } from "@/middleware/map";
 import { BannerType } from "@/constants/banner";
+import { until } from "@/utils/async";
+import { reverseGeocode } from "@/services/geocoding";
+import { createStreet } from "@/services/streets";
+import { Street } from "@/models/Street";
 
 export default Vue.extend({
   name: "MapView",
@@ -64,6 +68,13 @@ export default Vue.extend({
       "isStreetCleanedTomorrow",
     ]),
     ...mapGetters(["showNoStreetsModal", "showAddStreetModal"]),
+  },
+
+  data() {
+    return {
+      streetID: "",
+      streetName: "",
+    };
   },
 
   methods: {
@@ -97,7 +108,22 @@ export default Vue.extend({
       this.setShowNoStreetsModal(false);
     },
 
-    onNoStreetsModalAddStreet() {
+    async onNoStreetsModalAddStreet() {
+      const [error, response] = await until(() =>
+        reverseGeocode(this.lat, this.lng, this.accessToken)
+      );
+
+      if (error) {
+        this.setBannerState({
+          text: "Oh oh! An error occured. Please try again later!",
+          type: BannerType.Error,
+          visible: true,
+        });
+        return;
+      }
+
+      this.streetID = response?.features[0].id as string;
+      this.streetName = response?.features[0].text as string;
       this.setShowAddStreetModal(true);
     },
 
@@ -105,10 +131,23 @@ export default Vue.extend({
       this.setShowAddStreetModal(false);
     },
 
-    onAddStreetModalAdd() {
+    async onAddStreetModalAdd(street: Street) {
+      street.id = this.streetID;
+
+      const [err] = await until(() => createStreet(street));
+
+      if (err) {
+        this.setBannerState({
+          text: "Oh Oh! An error occurred while adding the street",
+          type: BannerType.Error,
+          visible: true,
+        });
+        return;
+      }
+
       this.setBannerState({
-        text: "Oh Oh!",
-        type: BannerType.Error,
+        text: `Successfully added ${this.streetName}!`,
+        type: BannerType.Success,
         visible: true,
       });
     },
