@@ -86,7 +86,10 @@ describe('<Banner />', () => {
 
     it('should clear internal timeout', () => {
       const clearTimeout = jest.spyOn(global, 'clearTimeout')
-      const wrapper = shallowMount(Banner, componentOptions) as BannerWrapper
+      const wrapper = shallowMount(Banner, componentOptions) as unknown as {
+        destroy(): void
+        vm: { timeoutID: number }
+      }
       wrapper.destroy()
       expect(clearTimeout).toHaveBeenCalledWith(wrapper.vm.timeoutID)
     })
