@@ -1,11 +1,16 @@
+import { STREETS_ROUTE_NAME } from '@/constants/route'
+import { mapUserGetters } from '@/store/user/helpers'
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
 
 export const streetsMiddleware = Vue.extend({
-  computed: { ...mapGetters(['hasFetchedStreets']) },
+  computed: {
+    ...mapUserGetters(['hasFetchedStreets'])
+  },
   beforeMount() {
     if (!this.hasFetchedStreets) {
-      this.$router.push({ name: 'Streets' })
+      this.$router.onReady(() => {
+        this.$router.push({ name: STREETS_ROUTE_NAME })
+      })
       return
     }
   }

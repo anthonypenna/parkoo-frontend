@@ -9,8 +9,13 @@ const routerConfig = {
 }
 
 const storeConfig = {
-  getters: {
-    hasFetchedGeolocation: jest.fn()
+  modules: {
+    user: {
+      namespaced: true,
+      getters: {
+        hasFetchedGeolocation: jest.fn()
+      }
+    }
   }
 }
 
@@ -19,7 +24,7 @@ const mockComponent = {
   render: (h: CreateElement) => h('div')
 }
 
-describe('streets middleware', () => {
+describe('geolocation middleware', () => {
   let localVue: VueConstructor<Vue>
   let router: VueRouter
   let store: Store<unknown>
@@ -41,7 +46,7 @@ describe('streets middleware', () => {
   describe('when geolocation hasnt been fetched', () => {
     beforeEach(() => {
       jest.spyOn(router, 'push')
-      storeConfig.getters.hasFetchedGeolocation.mockReturnValue(false)
+      storeConfig.modules.user.getters.hasFetchedGeolocation.mockReturnValue(false)
     })
 
     it('should go to the geolocation page', () => {
@@ -53,7 +58,7 @@ describe('streets middleware', () => {
   describe('when geolocation has been fetched', () => {
     beforeEach(() => {
       jest.spyOn(router, 'push')
-      storeConfig.getters.hasFetchedGeolocation.mockReturnValue(true)
+      storeConfig.modules.user.getters.hasFetchedGeolocation.mockReturnValue(true)
     })
 
     it('should do nothing', () => {

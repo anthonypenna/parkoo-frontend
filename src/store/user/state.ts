@@ -4,5 +4,5 @@ export const state = (): UserState => ({
   hasFetchedGeolocation: false,
   hasFetchedStreets: false,
   lat: 0,
-  lng: 0,
+  lng: 0
 })

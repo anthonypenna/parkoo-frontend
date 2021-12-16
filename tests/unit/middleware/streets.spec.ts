@@ -9,8 +9,13 @@ const routerConfig = {
 }
 
 const storeConfig = {
-  getters: {
-    hasFetchedStreets: jest.fn()
+  modules: {
+    user: {
+      namespaced: true,
+      getters: {
+        hasFetchedStreets: jest.fn()
+      }
+    }
   }
 }
 
@@ -41,7 +46,7 @@ describe('streets middleware', () => {
   describe('when streets havent been fetched', () => {
     beforeEach(() => {
       jest.spyOn(router, 'push')
-      storeConfig.getters.hasFetchedStreets.mockReturnValue(false)
+      storeConfig.modules.user.getters.hasFetchedStreets.mockReturnValue(false)
     })
 
     it('should go to the streets page', () => {
@@ -53,7 +58,7 @@ describe('streets middleware', () => {
   describe('when streets have been fetched', () => {
     beforeEach(() => {
       jest.spyOn(router, 'push')
-      storeConfig.getters.hasFetchedStreets.mockReturnValue(true)
+      storeConfig.modules.user.getters.hasFetchedStreets.mockReturnValue(true)
     })
 
     it('should do nothing', () => {

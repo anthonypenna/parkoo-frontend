@@ -8,12 +8,16 @@ exports[`<Banner /> when hidden should render correctly 1`] = `
 
 exports[`<Banner /> when success type should render correctly 1`] = `
 <transition-stub name="banner">
-  <div class="banner banner--success"></div>
+  <div class="banner banner--success">
+
+  </div>
 </transition-stub>
 `;
 
 exports[`<Banner /> when visible should render correctly 1`] = `
 <transition-stub name="banner">
-  <div class="banner banner--error"></div>
+  <div class="banner banner--error">
+
+  </div>
 </transition-stub>
 `;

@@ -5,12 +5,20 @@ import VueRouter from 'vue-router'
 import Vuex, { Store } from 'vuex'
 
 const routerConfig = {
-  routes: [{ path: '/geolocation', name: 'Geolocation' }]
+  routes: [
+    { path: '/map', name: 'Map' },
+    { path: '/geolocation', name: 'Geolocation' }
+  ]
 }
 
 const storeConfig = {
-  getters: {
-    isReadyToLoadMap: jest.fn()
+  modules: {
+    user: {
+      namespaced: true,
+      getters: {
+        isReady: jest.fn()
+      }
+    }
   }
 }
 
@@ -41,7 +49,7 @@ describe('map middleware', () => {
   describe('when the map isnt ready to be loaded', () => {
     beforeEach(() => {
       jest.spyOn(router, 'push')
-      storeConfig.getters.isReadyToLoadMap.mockReturnValue(false)
+      storeConfig.modules.user.getters.isReady.mockReturnValue(false)
     })
 
     it('should go to the geolocation page', () => {
@@ -53,7 +61,11 @@ describe('map middleware', () => {
   describe('when the map is ready to be loaded', () => {
     beforeEach(() => {
       jest.spyOn(router, 'push')
-      storeConfig.getters.isReadyToLoadMap.mockReturnValue(true)
+      storeConfig.modules.user.getters.isReady.mockReturnValue(true)
+    })
+
+    afterEach(() => {
+      jest.clearAllMocks()
     })
 
     it('should do nothing', () => {

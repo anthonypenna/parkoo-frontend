@@ -3,7 +3,8 @@ import { getters } from './getters'
 import { mutations } from './mutations'
 import { state } from './state'
 
-export const mapboxStore = {
+export const mapbox = {
+  namespaced: true,
   actions,
   getters,
   mutations,

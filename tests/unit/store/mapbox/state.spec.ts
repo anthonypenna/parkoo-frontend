@@ -7,7 +7,7 @@ jest.mock('@/utils/mapbox')
 
 describe('state', () => {
   beforeEach(() => {
-    process.env.VUE_APP_MAPBOX_TOKEN = 'token'
+    process.env.VUE_APP_MAPBOX_ACCESS_TOKEN = 'token'
     jest.spyOn(mapboxUtils, 'getInitialCenter').mockReturnValue(MAPBOX_CENTER)
   })
 

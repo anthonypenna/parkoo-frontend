@@ -28,6 +28,13 @@ const store = new Vuex.Store<RootState>({
     nameOfStreetBeingAdded: jest.fn()
   },
   modules: {
+    streetCreation: {
+      namespaced: true,
+      getters: {
+        streetID: jest.fn(() => ''),
+        streetName: jest.fn(() => '')
+      }
+    },
     user: {
       namespaced: true,
       state: {

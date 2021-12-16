@@ -16,18 +16,26 @@ const routerConfig = {
 }
 
 const storeConfig = {
-  mutations: {
-    setHasFetchedGeolocation: jest.fn(),
-    setShowLoading: jest.fn()
-  },
-  getters: {
-    showLoading: jest.fn()
-  },
   modules: {
+    loading: {
+      namespaced: true,
+      actions: {
+        stopLoading: jest.fn()
+      },
+      getters: {
+        showLoading: jest.fn(() => true)
+      },
+      mutations: {
+        setShowLoading: jest.fn()
+      }
+    },
     user: {
       namespaced: true,
       actions: {
         getPosition: jest.fn()
+      },
+      mutations: {
+        setHasFetchedGeolocation: jest.fn()
       }
     }
   }
@@ -74,9 +82,9 @@ describe('<Geolocation />', () => {
 
       it('should stop loading', async () => {
         const wrapper = shallowMount(Geolocation, componentOptions)
-        const setShowLoading = jest.spyOn<any, any>(wrapper.vm, 'setShowLoading')
+        const setShowLoading = jest.spyOn<any, any>(wrapper.vm, 'stopLoading')
         await $nextTick()
-        expect(setShowLoading).toHaveBeenCalledWith(false)
+        expect(setShowLoading).toHaveBeenCalled()
       })
     })
 

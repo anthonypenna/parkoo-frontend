@@ -27,6 +27,43 @@ describe('getters', () => {
     })
   })
 
+  describe('hasFetchedStreets', () => {
+    describe('when the user hasnt fetched streets', () => {
+      it('should return false', () => {
+        expect(getters.hasFetchedStreets($state)).toEqual(false)
+      })
+    })
+
+    describe('when the user has fetched streets', () => {
+      beforeEach(() => {
+        $state.hasFetchedStreets = true
+      })
+
+      it('should return true', () => {
+        expect(getters.hasFetchedStreets($state)).toEqual(true)
+      })
+    })
+  })
+
+  describe('isReady', () => {
+    describe('when the user hasnt fetched geolocation or streets', () => {
+      it('should return false', () => {
+        expect(getters.isReady($state)).toEqual(false)
+      })
+    })
+
+    describe('when the user has fetched geolocation and streets', () => {
+      beforeEach(() => {
+        $state.hasFetchedGeolocation = true
+        $state.hasFetchedStreets = true
+      })
+
+      it('should return true', () => {
+        expect(getters.isReady($state)).toEqual(true)
+      })
+    })
+  })
+
   describe('lat', () => {
     it('should return the user latitude', () => {
       expect(getters.lat($state)).toEqual(0)

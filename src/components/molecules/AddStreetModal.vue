@@ -1,7 +1,7 @@
 <template>
   <PromptModal @close="onCancel" @confirm="onAdd">
     <h2>Add new street</h2>
-    <p>{{ nameOfStreetBeingAdded }}</p>
+    <p>{{ streetName }}</p>
     <h3 class="add-street-modal__subsection">Cleaning days</h3>
     <div class="add-street-modal__cleaning-days">
       <div v-for="(day, index) of cleaningDays" :key="day.id" class="add-street-modal__cleaning-day">
@@ -20,8 +20,8 @@ import Vue from 'vue'
 import PromptModal from '@/components/molecules/PromptModal.vue'
 import Checkbox from '@/components/atoms/Checkbox.vue'
 import { Day } from '@/constants/date'
-import { Street } from '@/models/Street'
-import { mapGetters } from 'vuex'
+import { mapUserGetters } from '@/store/user/helpers'
+import { mapStreetCreationGetters } from '@/store/street-creation/helpers'
 
 export default Vue.extend({
   name: 'AddStreetModal',
@@ -42,8 +42,8 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapGetters('user', ['lat', 'lng']),
-    ...mapGetters(['nameOfStreetBeingAdded'])
+    ...mapUserGetters(['lat', 'lng']),
+    ...mapStreetCreationGetters(['streetID', 'streetName'])
   },
 
   methods: {
@@ -53,7 +53,7 @@ export default Vue.extend({
 
     createNewStreet() {
       return {
-        id: '',
+        id: this.streetID,
         lat: this.lat,
         lng: this.lng,
         cleaningDays: this.foldCleaningDays()

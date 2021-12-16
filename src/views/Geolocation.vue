@@ -10,22 +10,23 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default Vue.extend({
   name: 'Geolocation',
   components: { GeolocationErrorModal },
-  computed: {
-    ...mapGetters(['showLoading'])
-  },
+  computed: { ...mapGetters('loading', ['showLoading']) },
   methods: {
+    ...mapActions('loading', ['stopLoading']),
     ...mapActions('user', ['getPosition']),
-    ...mapMutations(['setShowLoading', 'setHasFetchedGeolocation'])
+    ...mapMutations('user', ['setHasFetchedGeolocation'])
   },
   mounted() {
-    this.getPosition()
-      .then(() => {
-        this.setHasFetchedGeolocation(true)
-        this.$router.push({ name: 'Streets' })
-      })
-      .catch(() => {
-        this.setShowLoading(false)
-      })
+    this.$router.onReady(() => {
+      this.getPosition()
+        .then(() => {
+          this.setHasFetchedGeolocation(true)
+          this.$router.push({ name: 'Streets' })
+        })
+        .catch(() => {
+          this.stopLoading()
+        })
+    })
   }
 })
 </script>

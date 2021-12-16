@@ -3,9 +3,10 @@ import { getters } from './getters'
 import { mutations } from './mutations'
 import { state } from './state'
 
-export const userStore = {
+export const user = {
+  namespaced: true,
   actions,
   getters,
   mutations,
-  state,
+  state
 }

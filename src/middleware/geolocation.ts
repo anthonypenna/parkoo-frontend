@@ -1,11 +1,16 @@
+import { GEOLOCATION_ROUTE_NAME } from '@/constants/route'
+import { mapUserGetters } from '@/store/user/helpers'
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
 
 export const geolocationMiddleware = Vue.extend({
-  computed: { ...mapGetters(['hasFetchedGeolocation']) },
+  computed: {
+    ...mapUserGetters(['hasFetchedGeolocation'])
+  },
   beforeMount() {
     if (!this.hasFetchedGeolocation) {
-      this.$router.push({ name: 'Geolocation' })
+      this.$router.onReady(() => {
+        this.$router.push({ name: GEOLOCATION_ROUTE_NAME })
+      })
       return
     }
   }

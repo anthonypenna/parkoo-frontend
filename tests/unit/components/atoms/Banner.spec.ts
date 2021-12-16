@@ -9,34 +9,22 @@ import { BannerState } from '@/models/BannerState'
 
 type BannerWrapper = Wrapper<
   Vue & {
+    removeTimeout(): void
     setBannerState(state: BannerState): void
     timeoutID: NodeJS.Timeout
   }
 >
 
 const storeConfig = {
-  state: {
-    bannerData: '',
-    bannerType: BannerType.Error,
-    hasFetchedGeolocation: false,
-    hasFetchedStreets: false,
-    showAddStreetModal: false,
-    showBanner: false,
-    showLoading: false,
-    showNoStreetsModal: false,
-    nameOfStreetBeingAdded: ''
-  },
-  mutations: {
-    setBannerState: jest.fn((state, bannerState) => {
-      state.bannerData = bannerState.text
-      state.bannerType = bannerState.type
-      state.showBanner = bannerState.visible
-    })
-  },
-  getters: {
-    showBanner: jest.fn(),
-    bannerType: jest.fn(),
-    bannerData: jest.fn()
+  modules: {
+    banner: {
+      namespaced: true,
+      getters: {
+        text: jest.fn(() => ''),
+        type: jest.fn(() => BannerType.Error),
+        visible: jest.fn(() => false)
+      }
+    }
   }
 }
 
@@ -58,7 +46,7 @@ describe('<Banner />', () => {
 
   describe('when hidden', () => {
     beforeEach(() => {
-      storeConfig.getters.showBanner.mockReturnValue(false)
+      storeConfig.modules.banner.getters.visible.mockReturnValue(false)
     })
 
     it('should render correctly', () => {
@@ -69,8 +57,8 @@ describe('<Banner />', () => {
 
   describe('when visible', () => {
     beforeEach(() => {
-      storeConfig.getters.showBanner.mockReturnValue(true)
-      storeConfig.getters.bannerType.mockReturnValue(BannerType.Error)
+      storeConfig.modules.banner.getters.type.mockReturnValue(BannerType.Error)
+      storeConfig.modules.banner.getters.visible.mockReturnValue(true)
     })
 
     it('should render correctly', () => {
@@ -81,8 +69,8 @@ describe('<Banner />', () => {
 
   describe('when success type', () => {
     beforeEach(() => {
-      storeConfig.getters.showBanner.mockReturnValue(true)
-      storeConfig.getters.bannerType.mockReturnValue(BannerType.Success)
+      storeConfig.modules.banner.getters.type.mockReturnValue(BannerType.Success)
+      storeConfig.modules.banner.getters.visible.mockReturnValue(true)
     })
 
     it('should render correctly', () => {
@@ -93,7 +81,7 @@ describe('<Banner />', () => {
 
   describe('when destroyed', () => {
     beforeEach(() => {
-      storeConfig.getters.showBanner.mockReturnValue(false)
+      storeConfig.modules.banner.getters.visible.mockReturnValue(false)
     })
 
     it('should clear internal timeout', () => {

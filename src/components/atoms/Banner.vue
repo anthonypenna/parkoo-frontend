@@ -1,38 +1,39 @@
 <template>
   <transition name="banner">
     <div
-      v-if="showBanner"
-      v-html="bannerData"
+      v-if="visible"
       :class="{
         banner: true,
         'banner--success': success,
         'banner--error': error
-      }" />
+      }">
+      {{ text }}
+    </div>
   </transition>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { BannerType, BANNER_TIMEOUT, CLOSED_BANNER_STATE } from '@/constants/banner'
-import { mapGetters, mapMutations } from 'vuex'
+import { BannerType, BANNER_TIMEOUT } from '@/constants/banner'
+import { mapBannerGetters, mapBannerMutations } from '@/store/banner/helpers'
 
 export default Vue.extend({
   name: 'Banner',
 
   computed: {
-    ...mapGetters(['showBanner', 'bannerType', 'bannerData']),
+    ...mapBannerGetters(['text', 'type', 'visible']),
 
     success(): boolean {
-      return this.bannerType === BannerType.Success
+      return this.type === BannerType.Success
     },
 
     error(): boolean {
-      return this.bannerType === BannerType.Error
+      return this.type === BannerType.Error
     }
   },
 
   methods: {
-    ...mapMutations(['setBannerState']),
+    ...mapBannerMutations(['setVisible']),
 
     removeTimeout() {
       clearTimeout(this.timeoutID as NodeJS.Timeout)
@@ -50,15 +51,15 @@ export default Vue.extend({
   },
 
   watch: {
-    showBanner() {
-      if (!this.showBanner) {
+    visible() {
+      if (!this.visible) {
         this.removeTimeout()
         return
       }
 
       this.timeoutID = setTimeout(() => {
         this.removeTimeout()
-        this.setBannerState(CLOSED_BANNER_STATE)
+        this.setVisible(false)
       }, BANNER_TIMEOUT)
     }
   }

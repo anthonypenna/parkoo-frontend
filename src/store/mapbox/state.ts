@@ -3,7 +3,7 @@ import { MapboxState } from '@/models/MapboxState'
 import { getInitialCenter } from '@/utils/mapbox'
 
 export const state = (): MapboxState => ({
-  accessToken: process.env.VUE_APP_MAPBOX_TOKEN || '',
+  accessToken: process.env.VUE_APP_MAPBOX_ACCESS_TOKEN || '',
   center: getInitialCenter(),
   map: null,
   theme: MAPBOX_THEME,
