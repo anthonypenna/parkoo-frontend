@@ -3,13 +3,7 @@
 exports[`<GeolocationErrorModal /> should render correctly 1`] = `
 <modal-stub>
   <h2>Oh oh!</h2>
-  <p>
-    Parkoo needs access to your <strong>location</strong> in order to work
-    correctly.
-  </p>
-  <p>
-    Please check your <strong>settings</strong>, refresh the page and try
-    again
-  </p>
+  <p>Parkoo needs access to your <strong>location</strong> in order to work correctly.</p>
+  <p>Please check your <strong>settings</strong>, refresh the page and try again</p>
 </modal-stub>
 `;

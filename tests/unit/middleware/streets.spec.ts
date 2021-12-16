@@ -1,26 +1,22 @@
 import { streetsMiddleware } from '@/middleware/streets'
-import {
-  createLocalVue,
-  shallowMount,
-  ThisTypedShallowMountOptions,
-} from '@vue/test-utils'
+import { createLocalVue, shallowMount, ThisTypedShallowMountOptions } from '@vue/test-utils'
 import { CreateElement, VueConstructor } from 'vue'
 import VueRouter from 'vue-router'
 import Vuex, { Store } from 'vuex'
 
 const routerConfig = {
-  routes: [{ path: '/streets', name: 'Streets' }],
+  routes: [{ path: '/streets', name: 'Streets' }]
 }
 
 const storeConfig = {
   getters: {
-    hasFetchedStreets: jest.fn(),
-  },
+    hasFetchedStreets: jest.fn()
+  }
 }
 
 const mockComponent = {
   mixins: [streetsMiddleware],
-  render: (h: CreateElement) => h('div'),
+  render: (h: CreateElement) => h('div')
 }
 
 describe('streets middleware', () => {

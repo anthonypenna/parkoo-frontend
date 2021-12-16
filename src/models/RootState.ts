@@ -9,4 +9,5 @@ export interface RootState {
   showBanner: boolean
   bannerType: BannerType
   bannerData: string
+  nameOfStreetBeingAdded: string
 }

@@ -6,7 +6,7 @@ describe('reverseGeocode', () => {
     it('should throw', async () => {
       Object.defineProperty(global, 'fetch', {
         value: jest.fn().mockRejectedValue({ message: 'Error!' }),
-        writable: true,
+        writable: true
       })
 
       const [error] = await until(() => reverseGeocode(0, 0, ''))
@@ -19,10 +19,10 @@ describe('reverseGeocode', () => {
       Object.defineProperty(global, 'fetch', {
         value: jest.fn().mockResolvedValue({
           json: jest.fn().mockResolvedValue({
-            features: [{ text: 'Hello!' }],
-          }),
+            features: [{ text: 'Hello!' }]
+          })
         }),
-        writable: true,
+        writable: true
       })
 
       const [_, response] = await until(() => reverseGeocode(0, 0, ''))

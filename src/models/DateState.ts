@@ -1,3 +1,5 @@
+import { Day } from '@/constants/date'
+
 export interface DateState {
-  currentDay: number
+  currentDay: Day
 }

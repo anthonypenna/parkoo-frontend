@@ -7,7 +7,7 @@ describe('getStreets', () => {
     beforeEach(() => {
       Object.defineProperty(global, 'fetch', {
         value: jest.fn().mockRejectedValue({}),
-        writable: true,
+        writable: true
       })
     })
 
@@ -27,10 +27,10 @@ describe('getStreets', () => {
       Object.defineProperty(global, 'fetch', {
         value: jest.fn().mockResolvedValue({
           json: jest.fn().mockResolvedValue({
-            streets: [],
-          }),
+            streets: []
+          })
         }),
-        writable: true,
+        writable: true
       })
     })
 
@@ -50,7 +50,7 @@ describe('createStreet', () => {
     beforeEach(() => {
       Object.defineProperty(global, 'fetch', {
         value: jest.fn().mockRejectedValue({}),
-        writable: true,
+        writable: true
       })
     })
 
@@ -67,11 +67,11 @@ describe('createStreet', () => {
           '3': false,
           '4': false,
           '5': false,
-          '6': false,
+          '6': false
         },
         id: 'address.239847293847',
         lat: 45,
-        lng: 9,
+        lng: 9
       }
 
       createStreet(street).catch(error => {
@@ -93,15 +93,15 @@ describe('createStreet', () => {
                 '3': false,
                 '4': false,
                 '5': false,
-                '6': false,
+                '6': false
               },
               id: 'address.239847293847',
               lat: 45,
-              lng: 9,
-            },
-          }),
+              lng: 9
+            }
+          })
         }),
-        writable: true,
+        writable: true
       })
     })
 
@@ -120,12 +120,12 @@ describe('createStreet', () => {
             '3': false,
             '4': false,
             '5': false,
-            '6': false,
+            '6': false
           },
           id: 'address.239847293847',
           lat: 45,
-          lng: 9,
-        },
+          lng: 9
+        }
       })
     })
   })

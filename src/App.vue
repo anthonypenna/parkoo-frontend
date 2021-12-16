@@ -8,17 +8,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Header from "@/components/atoms/Header.vue";
-import Loading from "@/components/molecules/Loading.vue";
-import Banner from "@/components/atoms/Banner.vue";
-import { mapGetters } from "vuex";
+import Vue from 'vue'
+import Header from '@/components/atoms/Header.vue'
+import Loading from '@/components/molecules/Loading.vue'
+import Banner from '@/components/atoms/Banner.vue'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
-  name: "App",
+  name: 'App',
   components: { Header, Loading, Banner },
-  computed: { ...mapGetters(["showLoading"]) },
-});
+  computed: { ...mapGetters(['showLoading']) }
+})
 </script>
 
 <style lang="scss">

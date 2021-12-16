@@ -1,26 +1,22 @@
 import { mapMiddleware } from '@/middleware/map'
-import {
-  createLocalVue,
-  shallowMount,
-  ThisTypedShallowMountOptions,
-} from '@vue/test-utils'
+import { createLocalVue, shallowMount, ThisTypedShallowMountOptions } from '@vue/test-utils'
 import { CreateElement, VueConstructor } from 'vue'
 import VueRouter from 'vue-router'
 import Vuex, { Store } from 'vuex'
 
 const routerConfig = {
-  routes: [{ path: '/geolocation', name: 'Geolocation' }],
+  routes: [{ path: '/geolocation', name: 'Geolocation' }]
 }
 
 const storeConfig = {
   getters: {
-    isReadyToLoadMap: jest.fn(),
-  },
+    isReadyToLoadMap: jest.fn()
+  }
 }
 
 const mockComponent = {
   mixins: [mapMiddleware],
-  render: (h: CreateElement) => h('div'),
+  render: (h: CreateElement) => h('div')
 }
 
 describe('map middleware', () => {

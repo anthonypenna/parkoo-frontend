@@ -19,9 +19,7 @@ describe('<Button />', () => {
   })
 
   it('should render the correct slot', () => {
-    const wrapper = shallowMount(Button, {
-      slots: { default: 'Hello world!' },
-    })
+    const wrapper = shallowMount(Button, { slots: { default: 'Hello world!' } })
     expect(wrapper.html()).toMatchSnapshot()
   })
 })

@@ -19,7 +19,7 @@ export function createStreet(street: Street): Promise<CreateStreetResponse> {
   return fetch(`${API_BASEURL}/street`, {
     body: JSON.stringify(street),
     headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
+    method: 'POST'
   })
     .then(response => response.json())
     .then(json => json as CreateStreetResponse)

@@ -5,7 +5,7 @@ describe('<Checkbox />', () => {
   describe('when unchecked', () => {
     it('should render correctly', () => {
       const wrapper = shallowMount(Checkbox, {
-        propsData: { name: 'foo' },
+        propsData: { name: 'foo' }
       })
       expect(wrapper.html()).toMatchSnapshot()
     })
@@ -13,9 +13,7 @@ describe('<Checkbox />', () => {
 
   describe('when checked', () => {
     it('should render correctly', () => {
-      const wrapper = shallowMount(Checkbox, {
-        propsData: { name: 'foo', checked: true },
-      })
+      const wrapper = shallowMount(Checkbox, { propsData: { name: 'foo', checked: true } })
       expect(wrapper.html()).toMatchSnapshot()
     })
   })

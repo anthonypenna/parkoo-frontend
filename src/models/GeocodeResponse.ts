@@ -1,3 +1,5 @@
+import { StreetData } from './StreetData'
+
 export interface GeocodeResponse {
-  features: Array<{ id: string; text: string }>
+  features: StreetData[]
 }

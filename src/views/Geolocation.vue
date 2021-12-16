@@ -3,29 +3,29 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import GeolocationErrorModal from "@/components/molecules/GeolocationErrorModal.vue";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import Vue from 'vue'
+import GeolocationErrorModal from '@/components/molecules/GeolocationErrorModal.vue'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
-  name: "Geolocation",
+  name: 'Geolocation',
   components: { GeolocationErrorModal },
   computed: {
-    ...mapGetters(["showLoading"]),
+    ...mapGetters(['showLoading'])
   },
   methods: {
-    ...mapActions("user", ["getPosition"]),
-    ...mapMutations(["setShowLoading", "setHasFetchedGeolocation"]),
+    ...mapActions('user', ['getPosition']),
+    ...mapMutations(['setShowLoading', 'setHasFetchedGeolocation'])
   },
   mounted() {
     this.getPosition()
       .then(() => {
-        this.setHasFetchedGeolocation(true);
-        this.$router.push({ name: "Streets" });
+        this.setHasFetchedGeolocation(true)
+        this.$router.push({ name: 'Streets' })
       })
       .catch(() => {
-        this.setShowLoading(false);
-      });
-  },
-});
+        this.setShowLoading(false)
+      })
+  }
+})
 </script>

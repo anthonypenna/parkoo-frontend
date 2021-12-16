@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { USER_CURSOR_NAME } from "@/constants/user-cursor";
+import Vue from 'vue'
+import { USER_CURSOR_NAME } from '@/constants/user-cursor'
 
 export default Vue.extend({
   name: USER_CURSOR_NAME,
@@ -12,15 +12,14 @@ export default Vue.extend({
   props: {
     lat: {
       default: 0,
-      type: Number,
+      type: Number
     },
-
     lng: {
       default: 0,
-      type: Number,
-    },
-  },
-});
+      type: Number
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

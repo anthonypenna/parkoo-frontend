@@ -6,63 +6,63 @@
       :class="{
         banner: true,
         'banner--success': success,
-        'banner--error': error,
-      }"
-    />
+        'banner--error': error
+      }" />
   </transition>
 </template>
 
 <script lang="ts">
-import {
-  BannerType,
-  BANNER_TIMEOUT,
-  CLOSED_BANNER_STATE,
-} from "@/constants/banner";
-import Vue from "vue";
-import { mapGetters, mapMutations } from "vuex";
+import Vue from 'vue'
+import { BannerType, BANNER_TIMEOUT, CLOSED_BANNER_STATE } from '@/constants/banner'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
-  name: "Banner",
+  name: 'Banner',
 
   computed: {
-    ...mapGetters(["showBanner", "bannerType", "bannerData"]),
+    ...mapGetters(['showBanner', 'bannerType', 'bannerData']),
 
     success(): boolean {
-      return this.bannerType === BannerType.Success;
+      return this.bannerType === BannerType.Success
     },
+
     error(): boolean {
-      return this.bannerType === BannerType.Error;
-    },
+      return this.bannerType === BannerType.Error
+    }
   },
 
   methods: {
-    ...mapMutations(["setBannerState"]),
+    ...mapMutations(['setBannerState']),
+
+    removeTimeout() {
+      clearTimeout(this.timeoutID as NodeJS.Timeout)
+    }
   },
 
   data() {
     return {
-      timeoutID: undefined as NodeJS.Timeout | undefined,
-    };
+      timeoutID: undefined as NodeJS.Timeout | undefined
+    }
   },
 
   destroyed() {
-    clearTimeout(this.timeoutID as NodeJS.Timeout);
+    this.removeTimeout()
   },
 
   watch: {
     showBanner() {
       if (!this.showBanner) {
-        clearTimeout(this.timeoutID as NodeJS.Timeout);
-        return;
+        this.removeTimeout()
+        return
       }
 
       this.timeoutID = setTimeout(() => {
-        clearTimeout(this.timeoutID as NodeJS.Timeout);
-        this.setBannerState(CLOSED_BANNER_STATE);
-      }, BANNER_TIMEOUT);
-    },
-  },
-});
+        this.removeTimeout()
+        this.setBannerState(CLOSED_BANNER_STATE)
+      }, BANNER_TIMEOUT)
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

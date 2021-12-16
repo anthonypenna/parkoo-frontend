@@ -8,17 +8,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Modal from "@/components/atoms/Modal.vue";
-import Button from "@/components/atoms/Button.vue";
+import Vue from 'vue'
+import Modal from '@/components/atoms/Modal.vue'
+import Button from '@/components/atoms/Button.vue'
 
 export default Vue.extend({
-  name: "AlertModal",
+  name: 'AlertModal',
   components: { Modal, Button },
   methods: {
     onConfirm() {
-      this.$emit("confirm");
-    },
-  },
-});
+      this.$emit('confirm')
+    }
+  }
+})
 </script>

@@ -14,6 +14,7 @@ const storeOptions: StoreOptions<RootState> = {
     showBanner: false,
     bannerData: '',
     bannerType: BannerType.Error,
+    nameOfStreetBeingAdded: ''
   },
   mutations: {
     setHasFetchedGeolocation: jest.fn((state, hasFetchedGeolocation) => {
@@ -35,7 +36,7 @@ const storeOptions: StoreOptions<RootState> = {
       state.bannerData = bannerState.text
       state.bannerType = bannerState.type
       state.showBanner = bannerState.visible
-    }),
+    })
   },
   getters: {
     hasFetchedGeolocation: jest.fn(state => state.hasFetchedGeolocation),
@@ -45,8 +46,8 @@ const storeOptions: StoreOptions<RootState> = {
     showNoStreetsModal: jest.fn(state => state.showNoStreetsModal),
     showBanner: jest.fn(state => state.showBanner),
     bannerType: jest.fn(state => state.bannerType),
-    bannerData: jest.fn(state => state.bannerData),
-  },
+    bannerData: jest.fn(state => state.bannerData)
+  }
 }
 
 describe('store', () => {
@@ -73,6 +74,7 @@ describe('store', () => {
       showBanner: false,
       bannerData: '',
       bannerType: BannerType.Error,
+      nameOfStreetBeingAdded: ''
     })
   })
 
@@ -117,7 +119,7 @@ describe('store', () => {
         store.commit('setBannerState', {
           visible: true,
           type: BannerType.Success,
-          text: 'Hello!',
+          text: 'Hello!'
         })
         expect(store.state.bannerData).toEqual('Hello!')
         expect(store.state.bannerType).toEqual(BannerType.Success)

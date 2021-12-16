@@ -16,8 +16,8 @@ type MapComponentType = Wrapper<
 jest.mock('mapbox-gl', () => ({
   Map: jest.fn(() => ({ on: jest.fn() })),
   Marker: jest.fn(() => ({
-    setLngLat: jest.fn().mockReturnValue({ addTo: jest.fn() }),
-  })),
+    setLngLat: jest.fn().mockReturnValue({ addTo: jest.fn() })
+  }))
 }))
 
 const localVue = createLocalVue()
@@ -29,16 +29,16 @@ const storeOptions = {
     mapbox: {
       namespaced: true,
       state: {
-        map: null,
+        map: null
       },
       mutations: {
-        setMap: jest.fn(),
+        setMap: jest.fn()
       },
       getters: {
-        map: jest.fn(),
-      },
-    },
-  },
+        map: jest.fn()
+      }
+    }
+  }
 }
 
 const store = new Vuex.Store(storeOptions)
@@ -47,7 +47,7 @@ const propsData = {
   accessToken: 'token',
   center: [0, 0],
   theme: 'theme',
-  zoom: 1,
+  zoom: 1
 }
 
 describe('<Map />', () => {
@@ -74,7 +74,7 @@ describe('<Map />', () => {
         accessToken: propsData.accessToken,
         center: propsData.center,
         style: propsData.theme,
-        zoom: propsData.zoom,
+        zoom: propsData.zoom
       })
     })
 
@@ -91,7 +91,7 @@ describe('<Map />', () => {
           const wrapper = mount(MapComponent, {
             localVue,
             propsData,
-            store,
+            store
           }) as MapComponentType
 
           wrapper.vm.renderChildComponent(undefined)
@@ -104,7 +104,7 @@ describe('<Map />', () => {
           const wrapper = mount(MapComponent, {
             localVue,
             propsData,
-            store,
+            store
           }) as MapComponentType
 
           const component = { $el: {}, lat: 45, lng: 9 }
@@ -126,8 +126,8 @@ describe('<Map />', () => {
                 <StreetMarker />
                 <StreetMarker />
                 <StreetMarker />
-          `,
-          },
+          `
+          }
         }) as MapComponentType
 
         wrapper.vm.renderChildComponent = jest.fn()
@@ -139,7 +139,7 @@ describe('<Map />', () => {
         const wrapper = mount(MapComponent, {
           localVue,
           propsData,
-          store,
+          store
         }) as MapComponentType
 
         wrapper.vm.onMapLoad()

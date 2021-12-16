@@ -1,9 +1,5 @@
 import { RootState } from '@/models/RootState'
-import {
-  createLocalVue,
-  shallowMount,
-  ThisTypedShallowMountOptions,
-} from '@vue/test-utils'
+import { createLocalVue, shallowMount, ThisTypedShallowMountOptions } from '@vue/test-utils'
 import { VueConstructor } from 'vue'
 import VueRouter from 'vue-router'
 import Vuex, { Store } from 'vuex'
@@ -15,26 +11,26 @@ const $nextTick = promisify(process.nextTick)
 const routerConfig = {
   routes: [
     { path: '/geolocation', name: 'Geolocation' },
-    { path: '/streets', name: 'Streets' },
-  ],
+    { path: '/streets', name: 'Streets' }
+  ]
 }
 
 const storeConfig = {
   mutations: {
     setHasFetchedGeolocation: jest.fn(),
-    setShowLoading: jest.fn(),
+    setShowLoading: jest.fn()
   },
   getters: {
-    showLoading: jest.fn(),
+    showLoading: jest.fn()
   },
   modules: {
     user: {
       namespaced: true,
       actions: {
-        getPosition: jest.fn(),
-      },
-    },
-  },
+        getPosition: jest.fn()
+      }
+    }
+  }
 }
 
 describe('<Geolocation />', () => {
@@ -78,11 +74,7 @@ describe('<Geolocation />', () => {
 
       it('should stop loading', async () => {
         const wrapper = shallowMount(Geolocation, componentOptions)
-        const setShowLoading = jest.spyOn<any, any>(
-          wrapper.vm,
-          'setShowLoading'
-        )
-
+        const setShowLoading = jest.spyOn<any, any>(wrapper.vm, 'setShowLoading')
         await $nextTick()
         expect(setShowLoading).toHaveBeenCalledWith(false)
       })
@@ -95,11 +87,7 @@ describe('<Geolocation />', () => {
 
       it('should set the fetched geolocation state', async () => {
         const wrapper = shallowMount(Geolocation, componentOptions)
-        const setHasFetchedGeolocation = jest.spyOn<any, any>(
-          wrapper.vm,
-          'setHasFetchedGeolocation'
-        )
-
+        const setHasFetchedGeolocation = jest.spyOn<any, any>(wrapper.vm, 'setHasFetchedGeolocation')
         await $nextTick()
         expect(setHasFetchedGeolocation).toHaveBeenCalledWith(true)
       })

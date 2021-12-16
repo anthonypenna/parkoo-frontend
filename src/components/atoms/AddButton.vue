@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Fade from "@/components/atoms/Fade.vue";
-import Button from "@/components/atoms/Button.vue";
+import Vue from 'vue'
+import Fade from '@/components/atoms/Fade.vue'
+import Button from '@/components/atoms/Button.vue'
 
 export default Vue.extend({
-  name: "AddButton",
-  components: { Fade, Button },
-});
+  name: 'AddButton',
+  components: { Fade, Button }
+})
 </script>
 
 <style lang="scss" scoped>

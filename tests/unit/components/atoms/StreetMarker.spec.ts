@@ -11,9 +11,7 @@ describe('<StreetMarker />', () => {
 
   describe('when cleaned tomorrow', () => {
     it('should render correctly', () => {
-      const wrapper = shallowMount(StreetMarker, {
-        propsData: { cleanedTomorrow: true },
-      })
+      const wrapper = shallowMount(StreetMarker, { propsData: { cleanedTomorrow: true } })
       expect(wrapper.html()).toMatchSnapshot()
     })
   })

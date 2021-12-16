@@ -4,7 +4,7 @@ import { VueConstructor } from 'vue'
 import VueRouter from 'vue-router'
 
 const routerConfig = {
-  routes: [{ path: '/geolocation', name: 'Geolocation' }],
+  routes: [{ path: '/geolocation', name: 'Geolocation' }]
 }
 
 describe('<Home />', () => {

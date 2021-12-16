@@ -1,9 +1,4 @@
-import {
-  createLocalVue,
-  shallowMount,
-  ThisTypedShallowMountOptions,
-  Wrapper,
-} from '@vue/test-utils'
+import { createLocalVue, shallowMount, ThisTypedShallowMountOptions, Wrapper } from '@vue/test-utils'
 import Banner from '@/components/atoms/Banner.vue'
 import { VueConstructor } from 'vue'
 import { Store } from 'vuex'
@@ -29,19 +24,20 @@ const storeConfig = {
     showBanner: false,
     showLoading: false,
     showNoStreetsModal: false,
+    nameOfStreetBeingAdded: ''
   },
   mutations: {
     setBannerState: jest.fn((state, bannerState) => {
       state.bannerData = bannerState.text
       state.bannerType = bannerState.type
       state.showBanner = bannerState.visible
-    }),
+    })
   },
   getters: {
     showBanner: jest.fn(),
     bannerType: jest.fn(),
-    bannerData: jest.fn(),
-  },
+    bannerData: jest.fn()
+  }
 }
 
 describe('<Banner />', () => {
@@ -103,7 +99,6 @@ describe('<Banner />', () => {
     it('should clear internal timeout', () => {
       const clearTimeout = jest.spyOn(global, 'clearTimeout')
       const wrapper = shallowMount(Banner, componentOptions) as BannerWrapper
-
       wrapper.destroy()
       expect(clearTimeout).toHaveBeenCalledWith(wrapper.vm.timeoutID)
     })

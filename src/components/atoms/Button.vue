@@ -5,18 +5,18 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue'
 
 export default Vue.extend({
-  name: "Button",
+  name: 'Button',
 
   props: {
     theme: {
-      default: "secondary",
-      type: String,
-    },
-  },
-});
+      default: 'secondary',
+      type: String
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

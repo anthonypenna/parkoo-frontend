@@ -5,7 +5,5 @@ import { convertPositionToLngLatLike } from '../position'
 
 export function getInitialCenter(): LngLatLike {
   const lastKnownPosition = getLastKnownPosition()
-  return lastKnownPosition
-    ? convertPositionToLngLatLike(lastKnownPosition)
-    : MAPBOX_CENTER
+  return lastKnownPosition ? convertPositionToLngLatLike(lastKnownPosition) : MAPBOX_CENTER
 }

@@ -8,29 +8,29 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: Home
   },
   {
     path: '/geolocation',
     name: 'Geolocation',
-    component: () => import('@/views/Geolocation.vue'),
+    component: () => import('@/views/Geolocation.vue')
   },
   {
     path: '/streets',
     name: 'Streets',
-    component: () => import('@/views/Streets.vue'),
+    component: () => import('@/views/Streets.vue')
   },
   {
     path: '/map',
     name: 'Map',
-    component: () => import('@/views/Map.vue'),
-  },
+    component: () => import('@/views/Map.vue')
+  }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes,
+  routes
 })
 
 export default router

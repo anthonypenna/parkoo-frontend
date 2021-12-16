@@ -1,5 +1,3 @@
 export const STREET_MARKER_NAME = 'StreetMarker'
-
 export const STREET_MARKER_AVAILABLE_COLOR = '#1DDC3C'
-
 export const STREET_MARKER_UNAVAILABLE_COLOR = '#FF7373'

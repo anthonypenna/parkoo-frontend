@@ -3,12 +3,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue'
 
 export default Vue.extend({
-  name: "Home",
+  name: 'Home',
   mounted() {
-    this.$router.push({ name: "Geolocation" });
-  },
-});
+    this.$router.push({ name: 'Geolocation' })
+  }
+})
 </script>

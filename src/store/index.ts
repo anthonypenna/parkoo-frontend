@@ -6,7 +6,7 @@ import Vuex from 'vuex'
 import { mapboxStore } from './mapbox'
 import { streetsStore } from './streets'
 import { userStore } from './user'
-import { dateStore } from './v2/date'
+import { dateStore } from './date'
 
 Vue.use(Vuex)
 
@@ -20,7 +20,7 @@ export default new Vuex.Store<RootState>({
     showBanner: false,
     bannerData: '',
     bannerType: BannerType.Error,
-    nameOfStreetBeingAdded: '',
+    nameOfStreetBeingAdded: ''
   },
   mutations: {
     setShowLoading(state, showLoading: boolean) {
@@ -45,25 +45,24 @@ export default new Vuex.Store<RootState>({
     },
     setNameOfStreetBeingAdded(state, name: string) {
       state.nameOfStreetBeingAdded = name
-    },
+    }
   },
   getters: {
     hasFetchedGeolocation: state => state.hasFetchedGeolocation,
     hasFetchedStreets: state => state.hasFetchedStreets,
-    isReadyToLoadMap: state =>
-      state.hasFetchedGeolocation && state.hasFetchedStreets,
+    isReadyToLoadMap: state => state.hasFetchedGeolocation && state.hasFetchedStreets,
     showAddStreetModal: state => state.showAddStreetModal,
     showLoading: state => state.showLoading,
     showNoStreetsModal: state => state.showNoStreetsModal,
     showBanner: state => state.showBanner,
     bannerType: state => state.bannerType,
     bannerData: state => state.bannerData,
-    nameOfStreetBeingAdded: state => state.nameOfStreetBeingAdded,
+    nameOfStreetBeingAdded: state => state.nameOfStreetBeingAdded
   },
   modules: {
     mapbox: mapboxStore,
     user: userStore,
     streets: streetsStore,
-    date: dateStore,
-  },
+    date: dateStore
+  }
 })

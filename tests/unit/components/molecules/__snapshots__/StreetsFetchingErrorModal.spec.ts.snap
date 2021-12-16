@@ -3,12 +3,7 @@
 exports[`<StreetsFetchingErrorModal /> should render correctly 1`] = `
 <modal-stub>
   <h2>Oh oh!</h2>
-  <p>
-    Seems like <strong>Parkoo</strong> couldn't connect to the
-    <strong>server</strong>!
-  </p>
-  <p>
-    We're working on it, so feel free to <strong>try again</strong> later.
-  </p>
+  <p>Seems like <strong>Parkoo</strong> couldn't connect to the <strong>server</strong>!</p>
+  <p>We're working on it, so feel free to <strong>try again</strong> later.</p>
 </modal-stub>
 `;

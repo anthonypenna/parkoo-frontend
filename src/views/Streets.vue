@@ -3,31 +3,31 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import StreetsFetchingErrorModal from "@/components/molecules/StreetsFetchingErrorModal.vue";
-import { mapActions, mapGetters, mapMutations } from "vuex";
-import { geolocationMiddleware } from "@/middleware/geolocation";
+import Vue from 'vue'
+import StreetsFetchingErrorModal from '@/components/molecules/StreetsFetchingErrorModal.vue'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { geolocationMiddleware } from '@/middleware/geolocation'
 
 export default Vue.extend({
-  name: "Streets",
+  name: 'Streets',
   mixins: [geolocationMiddleware],
   components: { StreetsFetchingErrorModal },
   computed: {
-    ...mapGetters(["showLoading"]),
+    ...mapGetters(['showLoading'])
   },
   methods: {
-    ...mapActions("streets", ["getStreets"]),
-    ...mapMutations(["setShowLoading", "setHasFetchedStreets"]),
+    ...mapActions('streets', ['getStreets']),
+    ...mapMutations(['setShowLoading', 'setHasFetchedStreets'])
   },
   mounted() {
     this.getStreets()
       .then(() => {
-        this.setHasFetchedStreets(true);
-        this.$router.push({ name: "Map" });
+        this.setHasFetchedStreets(true)
+        this.$router.push({ name: 'Map' })
       })
       .catch(() => {
-        this.setShowLoading(false);
-      });
-  },
-});
+        this.setShowLoading(false)
+      })
+  }
+})
 </script>

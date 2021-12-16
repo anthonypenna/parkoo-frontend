@@ -7,13 +7,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Fade from "@/components/atoms/Fade.vue";
+import Vue from 'vue'
+import Fade from '@/components/atoms/Fade.vue'
 
 export default Vue.extend({
-  name: "Overlay",
-  components: { Fade },
-});
+  name: 'Overlay',
+  components: { Fade }
+})
 </script>
 
 <style lang="scss" scoped>

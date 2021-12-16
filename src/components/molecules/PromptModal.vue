@@ -14,22 +14,22 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Modal from "@/components/atoms/Modal.vue";
-import Button from "@/components/atoms/Button.vue";
+import Vue from 'vue'
+import Modal from '@/components/atoms/Modal.vue'
+import Button from '@/components/atoms/Button.vue'
 
 export default Vue.extend({
-  name: "PromptModal",
+  name: 'PromptModal',
   components: { Modal, Button },
   methods: {
     onClose() {
-      this.$emit("close");
+      this.$emit('close')
     },
     onConfirm() {
-      this.$emit("confirm");
-    },
-  },
-});
+      this.$emit('confirm')
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

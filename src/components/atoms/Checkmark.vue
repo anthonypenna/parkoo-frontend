@@ -1,12 +1,6 @@
 <template>
   <Fade>
-    <svg
-      width="24"
-      height="18"
-      viewBox="0 0 24 18"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <line
         x1="2.82843"
         y1="9.99774"
@@ -14,27 +8,18 @@
         y2="15.1463"
         stroke="#FF9979"
         stroke-width="4"
-        stroke-linecap="round"
-      />
-      <line
-        x1="8.04602"
-        y1="15.1255"
-        x2="21.1715"
-        y2="2"
-        stroke="#FF9979"
-        stroke-width="4"
-        stroke-linecap="round"
-      />
+        stroke-linecap="round" />
+      <line x1="8.04602" y1="15.1255" x2="21.1715" y2="2" stroke="#FF9979" stroke-width="4" stroke-linecap="round" />
     </svg>
   </Fade>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Fade from "@/components/atoms/Fade.vue";
+import Vue from 'vue'
+import Fade from '@/components/atoms/Fade.vue'
 
 export default Vue.extend({
-  name: "Checkmark",
-  components: { Fade },
-});
+  name: 'Checkmark',
+  components: { Fade }
+})
 </script>

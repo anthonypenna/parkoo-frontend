@@ -4,45 +4,39 @@
       <slot name="label" />
     </label>
     <div class="checkbox__input">
-      <input
-        v-bind="$attrs"
-        type="checkbox"
-        :name="name"
-        :checked="checked"
-        @change="onChange"
-      />
+      <input v-bind="$attrs" type="checkbox" :name="name" :checked="checked" @change="onChange" />
       <Checkmark v-show="checked" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Checkmark from "@/components/atoms/Checkmark.vue";
+import Vue from 'vue'
+import Checkmark from '@/components/atoms/Checkmark.vue'
 
 export default Vue.extend({
-  name: "Checkbox",
+  name: 'Checkbox',
   components: { Checkmark },
   model: {
-    prop: "checked",
-    event: "change",
+    prop: 'checked',
+    event: 'change'
   },
   props: {
     name: {
-      default: "",
-      type: String,
+      default: '',
+      type: String
     },
     checked: {
       default: false,
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   methods: {
     onChange(event: { target: HTMLInputElement }) {
-      this.$emit("change", event.target.checked);
-    },
-  },
-});
+      this.$emit('change', event.target.checked)
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

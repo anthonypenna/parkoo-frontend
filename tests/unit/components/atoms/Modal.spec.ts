@@ -8,9 +8,7 @@ describe('<Modal />', () => {
   })
 
   it('should render the correct slot', () => {
-    const wrapper = shallowMount(Modal, {
-      slots: { default: 'Hello world!' },
-    })
+    const wrapper = shallowMount(Modal, { slots: { default: 'Hello world!' } })
     expect(wrapper.html()).toMatchSnapshot()
   })
 })

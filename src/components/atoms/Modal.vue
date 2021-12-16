@@ -7,13 +7,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Fade from "@/components/atoms/Fade.vue";
+import Vue from 'vue'
+import Fade from '@/components/atoms/Fade.vue'
 
 export default Vue.extend({
-  name: "Modal",
-  components: { Fade },
-});
+  name: 'Modal',
+  components: { Fade }
+})
 </script>
 
 <style lang="scss" scoped>

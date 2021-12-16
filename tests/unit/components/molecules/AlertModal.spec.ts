@@ -1,13 +1,12 @@
 import { mount, shallowMount } from '@vue/test-utils'
 import AlertModal from '@/components/molecules/AlertModal.vue'
 import Button from '@/components/atoms/Button.vue'
-import Modal from '@/components/atoms/Modal.vue'
 
 describe('<AlertModal />', () => {
   it('should render correctly', () => {
     const wrapper = shallowMount(AlertModal, {
       slots: { default: 'Hello world!', button: 'Click me' },
-      stubs: { Modal: true },
+      stubs: { Modal: true }
     })
     expect(wrapper.html()).toMatchSnapshot()
   })
