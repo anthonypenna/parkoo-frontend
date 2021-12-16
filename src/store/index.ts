@@ -3,10 +3,10 @@ import { BannerState } from '@/models/BannerState'
 import { RootState } from '@/models/RootState'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { dateStore } from './date'
 import { mapboxStore } from './mapbox'
 import { streetsStore } from './streets'
 import { userStore } from './user'
+import { dateStore } from './v2/date'
 
 Vue.use(Vuex)
 
@@ -20,6 +20,7 @@ export default new Vuex.Store<RootState>({
     showBanner: false,
     bannerData: '',
     bannerType: BannerType.Error,
+    nameOfStreetBeingAdded: '',
   },
   mutations: {
     setShowLoading(state, showLoading: boolean) {
@@ -42,6 +43,9 @@ export default new Vuex.Store<RootState>({
       state.bannerType = bannerState.type
       state.showBanner = bannerState.visible
     },
+    setNameOfStreetBeingAdded(state, name: string) {
+      state.nameOfStreetBeingAdded = name
+    },
   },
   getters: {
     hasFetchedGeolocation: state => state.hasFetchedGeolocation,
@@ -54,6 +58,7 @@ export default new Vuex.Store<RootState>({
     showBanner: state => state.showBanner,
     bannerType: state => state.bannerType,
     bannerData: state => state.bannerData,
+    nameOfStreetBeingAdded: state => state.nameOfStreetBeingAdded,
   },
   modules: {
     mapbox: mapboxStore,
