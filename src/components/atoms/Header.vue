@@ -22,6 +22,10 @@
     font-size: 32px;
     font-weight: normal;
     text-align: center;
+
+    @media screen and (min-width: 768px) {
+      padding: 32px 0;
+    }
   }
 }
 </style>
